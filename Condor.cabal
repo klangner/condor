@@ -1,12 +1,42 @@
 name:           Condor
 version:        0.1
-cabal-version:  >=1.2
+cabal-version:  >= 1.10
 build-type:     Simple
-author:         klangner
+author:         Krzysztof Langner
+maintainer:     klangner@gmail.com
+synopsis:       Text search engine
+description:    Library for indexing and searching text documents
+homepage:       https://github.com/klangner/Condor
+category:       search
 
 executable Condor
   hs-source-dirs:  src
   main-is:         Main.hs
-  build-depends:   base >= 4
+  build-depends:   
+                   base >= 4,
+                   Cabal >=1.16.0 && <1.17
   ghc-options:     -Wall
+  other-modules:   
+                   Condor.Text,
+                   Condor.Index
+
+library 
+  hs-source-dirs:   src
+  ghc-options:      -Wall
+  exposed-modules:  Condor.Index
+  other-modules:    Condor.Text
+  build-depends:    
+                   base,
+                   Cabal >=1.16.0 && <1.17
+
+test-suite unit-tests
+  type:            detailed-0.9
+  ghc-options:     -Wall -rtsopts
+  build-depends: base, Cabal >= 1.9.2
+  other-modules:   
+                  Condor.Text
+  hs-source-dirs:  
+                  tests,
+                  src
+  test-module:     TextTest
 
