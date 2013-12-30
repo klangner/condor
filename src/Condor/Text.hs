@@ -1,7 +1,15 @@
 module Condor.Text (
-    getWords
+    tokenize
     ) where
 
-getWords :: String -> [String]
-getWords xs = [xs]
+
+isSeparator :: Char -> Bool
+isSeparator s = elem s " .,!?"
+
+-- | Split string into tokens
+tokenize :: String -> [String]
+tokenize xs = case dropWhile isSeparator xs of
+                   "" -> []
+                   s' -> w : tokenize s''
+                         where (w, s'') = break isSeparator s'
 
