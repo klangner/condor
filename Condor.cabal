@@ -23,7 +23,9 @@ library
   ghc-options:      -Wall
   exposed-modules:  Condor.Index
   other-modules:    Condor.Text
-  build-depends:    base
+  build-depends:    
+                    base,
+                    containers >=0.5.0 && <0.6
 
 test-suite unit-tests
   type:            detailed-0.9
