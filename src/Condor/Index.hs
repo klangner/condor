@@ -1,6 +1,6 @@
 module Condor.Index 
-    ( empty
-    , insert
+    ( add
+    , empty
     , search
     , size
     ) where
@@ -17,8 +17,8 @@ empty :: Index
 empty = Map.empty
 
 -- | Add document to the index
-insert :: Index -> DocName -> Text -> Index
-insert idx _ _ = idx
+add :: Index -> DocName -> Text -> Index
+add idx _ _ = idx
 
 -- | search term in the index
 search :: Text -> [DocName]
