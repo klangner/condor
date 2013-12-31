@@ -9,6 +9,7 @@ module Condor.Index
     ) where
 
 import qualified Data.Map as Map
+import qualified Data.List as List
 import Condor.Text
 
 
@@ -32,11 +33,17 @@ add d c ix = Index $ foldl f (index ix) (tokenize c)
                     Nothing -> Map.insert t [d] i
 
 
--- | search term in the index
+-- | Search term in the index
 search :: Index -> Text -> [DocName]
-search ix s = case Map.lookup (strToLower s) (index ix) of
-                Just a -> a
-                Nothing -> []
+search ix s = List.nub $ foldl (++) [] ys
+    where ys = map (searchTerm ix) (tokenize s)
+
+
+-- | Search single term in the index
+searchTerm :: Index -> Text -> [DocName]
+searchTerm ix s = case Map.lookup (strToLower s) (index ix) of
+                    Just a -> a
+                    Nothing -> []
                  
 
 -- | Get index size

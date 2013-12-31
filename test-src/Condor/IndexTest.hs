@@ -19,6 +19,10 @@ tests = [ TestCase $ prop_empty
                                               ]
         , TestCase $ prop_search "two" "doc1" [("doc1", "One Two Three")]
         , TestCase $ prop_search "Three" "doc1" [("doc1", "one two three")]
+        , TestCase $ prop_search "one Three" "doc1" [("doc1", "one two three")]
+        , TestCase $ prop_search_count "two one" 2 [ ("doc1", "one two three") 
+                                                   , ("doc2", "forty two")
+                                                   ]
         ]
          
 -- | Helper function to populate index         
@@ -27,13 +31,21 @@ indexFromDocs ds = foldl f empty ds
     where f i (d, c) = add d c i
 
          
+-- | Check empty index         
 prop_empty :: Assertion         
 prop_empty = assertEqual "Empty index has 0 size" 0 (size empty)          
          
+-- | Check if document is found         
 prop_search :: String -> DocName -> [(DocName, Text)] ->  Assertion         
 prop_search s e ds = assertEqual s True $ elem e (search idx s)
     where idx = indexFromDocs ds
+
+-- | Count number of returned documents          
+prop_search_count :: String -> Int -> [(DocName, Text)] ->  Assertion         
+prop_search_count s n ds = assertEqual s n $ length (search idx s)
+    where idx = indexFromDocs ds
          
+-- | Check index size         
 prop_size :: (DocName, Text) -> Int -> Assertion
 prop_size (d, c) n = assertEqual "Index size" n (size $ add d c empty)         
     
