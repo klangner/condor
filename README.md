@@ -16,7 +16,7 @@ let idx = empty
 Add document to the index
 
 ```Haskell
-let idx1 = add idx "My document" "This is document content."
+let idx1 = add idx "My document" "This is a document content."
 ```
 
 
@@ -24,7 +24,7 @@ Count number of entries
 
 ```Haskell
 size idx1
-4
+5
 ```
 
 
