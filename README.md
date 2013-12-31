@@ -1,6 +1,6 @@
 # Condor
 
-Condor is Haskell library (and command line tool) to index and search text documents.
+Condor is Haskell library for indexing and searching text documents.
 
 ## Library API
 
