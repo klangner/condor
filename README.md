@@ -4,7 +4,7 @@ Condor is Haskell library (and command line tool) to index and search text docum
 
 ## Library API
 
-### Create empty index
+Create empty index
 
 ```Haskell
 import Condor.Index
@@ -13,14 +13,14 @@ let idx = empty
 ```
 
 
-### Add document to the index
+Add document to the index
 
 ```Haskell
 let idx1 = add idx "My document" "This is document content."
 ```
 
 
-### Count number of index entries
+Count number of entries
 
 ```Haskell
 size idx1
@@ -28,7 +28,7 @@ size idx1
 ```
 
 
-### Search for term
+Search documents
 
 ```Haskell
 search idx1 "content"
