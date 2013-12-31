@@ -24,7 +24,7 @@ Count number of entries
 
 ```Haskell
 size idx1
-4
+5
 ```
 
 
