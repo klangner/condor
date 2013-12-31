@@ -21,15 +21,19 @@ data Index = Index { index :: Map.Map String [String]
 empty :: Index
 empty = Index Map.empty
 
+
 -- | Add document to the index
 add :: DocName -> Text -> Index -> Index
-add d c idx = Index $ foldl f (index idx) (tokenize c)
-    where f ix t = Map.insert t [d] ix
+add d c ix = Index $ foldl f (index ix) (tokenize c)
+    where f i t = Map.insert t [d] i
+
 
 -- | search term in the index
 search :: Index -> Text -> [DocName]
-search _ "" = []
-search _ s = [s]
+search ix s = case Map.lookup s (index ix) of
+                Just a -> a
+                Nothing -> []
+                 
 
 -- | Get index size
 size :: Index -> Int

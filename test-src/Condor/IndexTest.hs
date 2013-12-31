@@ -10,7 +10,7 @@ testCases = [("Index", t) | t <- tests]
 tests :: [Test]
 tests = [ TestCase $ prop_empty
         , TestCase $ prop_size ("doc1", "one two three") 3
-        --, TestCase $ prop_search ("doc1", "one two three") "two" ["doc1"]
+        , TestCase $ prop_search ("doc1", "one two three") "two" ["doc1"]
         ]
          
 prop_empty :: Assertion         
