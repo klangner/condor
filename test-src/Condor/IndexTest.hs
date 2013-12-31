@@ -1,17 +1,20 @@
-module Condor.TextTest (tests) where
+module Condor.IndexTest (testCases) where
 
 import Condor.Index
 import Test.HUnit
-import qualified Distribution.TestSuite as C
-import qualified Distribution.TestSuite.HUnit as H
 
-
-tests :: IO [C.Test]
-tests = return $ map (uncurry H.test) testCases
 
 testCases :: [(String, Test)]
-testCases = [ ("Create index", TestCase $ prop_empty)
-            ]
+testCases = [("Index", t) | t <- tests]
+
+tests :: [Test]
+tests = [ TestCase $ prop_empty
+        --, TestCase $ prop_search ("doc1", "one two three") "two" ["doc1"]
+        ]
          
-prop_empty :: String -> Int -> Assertion         
+prop_empty :: Assertion         
 prop_empty = assertEqual "Empty index has 0 size" 0 (size empty)          
+         
+prop_search :: (DocName, Text) -> String -> [DocName] -> Assertion         
+prop_search (d, c) s e = assertEqual ("Search " ++ s) e (search idx s)
+    where idx = add empty d c          

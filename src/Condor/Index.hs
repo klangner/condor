@@ -1,5 +1,7 @@
 module Condor.Index 
-    ( add
+    ( DocName
+    , Text
+    , add
     , empty
     , search
     , size
@@ -21,9 +23,9 @@ add :: Index -> DocName -> Text -> Index
 add idx _ _ = idx
 
 -- | search term in the index
-search :: Text -> [DocName]
-search [] = []
-search s = [s]
+search :: Index -> Text -> [DocName]
+search _ "" = []
+search _ s = [s]
 
 -- | Get index size
 size :: Index -> Int

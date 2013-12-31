@@ -1,19 +1,16 @@
-module Condor.TextTest (tests) where
+module Condor.TextTest (testCases) where
 
 import Condor.Text
 import Test.HUnit
-import qualified Distribution.TestSuite as C
-import qualified Distribution.TestSuite.HUnit as H
-
-
-tests :: IO [C.Test]
-tests = return $ map (uncurry H.test) testCases
 
 testCases :: [(String, Test)]
-testCases = [ ("Get word count", TestCase $ prop_tokenize_count "one two three" 3)
-            , ("Get word count", TestCase $ prop_tokenize_count "one,two " 2)
-            , ("Get word count", TestCase $ prop_tokenize_token " one?two! " 1 "two")
-            ]
+testCases = [("Text", t) | t <- tests]
+
+tests :: [Test]
+tests = [ TestCase $ prop_tokenize_count "one two three" 3
+        , TestCase $ prop_tokenize_count "one,two " 2
+        , TestCase $ prop_tokenize_token " one?two! " 1 "two"
+        ]
          
 prop_tokenize_count :: String -> Int -> Assertion         
 prop_tokenize_count xs n = assertEqual xs n (length (tokenize xs))          
