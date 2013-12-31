@@ -17,6 +17,8 @@ tests = [ TestCase $ prop_empty
         , TestCase $ prop_search "two" "doc2" [ ("doc1", "one two three") 
                                               , ("doc2", "forty two")
                                               ]
+        , TestCase $ prop_search "two" "doc1" [("doc1", "One Two Three")]
+        , TestCase $ prop_search "Three" "doc1" [("doc1", "one two three")]
         ]
          
 -- | Helper function to populate index         

@@ -9,7 +9,7 @@ module Condor.Index
     ) where
 
 import qualified Data.Map as Map
-import Condor.Text (tokenize)
+import Condor.Text
 
 
 type DocName = String
@@ -34,7 +34,7 @@ add d c ix = Index $ foldl f (index ix) (tokenize c)
 
 -- | search term in the index
 search :: Index -> Text -> [DocName]
-search ix s = case Map.lookup s (index ix) of
+search ix s = case Map.lookup (strToLower s) (index ix) of
                 Just a -> a
                 Nothing -> []
                  
