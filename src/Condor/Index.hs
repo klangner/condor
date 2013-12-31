@@ -8,19 +8,23 @@ module Condor.Index
     ) where
 
 import qualified Data.Map as Map
+import Condor.Text (tokenize)
 
 
 type DocName = String
 type Text = String
-type Index = Map.Map String [String]
+data Index = Index { index :: Map.Map String [String]
+                   }
+
 
 -- | Create empty index
 empty :: Index
-empty = Map.empty
+empty = Index Map.empty
 
 -- | Add document to the index
-add :: Index -> DocName -> Text -> Index
-add idx _ _ = idx
+add :: DocName -> Text -> Index -> Index
+add d c idx = Index $ foldl f (index idx) (tokenize c)
+    where f ix t = Map.insert t [d] ix
 
 -- | search term in the index
 search :: Index -> Text -> [DocName]
@@ -29,4 +33,4 @@ search _ s = [s]
 
 -- | Get index size
 size :: Index -> Int
-size ix = Map.size ix
+size ix = Map.size (index ix)
