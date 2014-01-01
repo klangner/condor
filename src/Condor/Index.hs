@@ -41,7 +41,7 @@ search ix s = List.nub $ foldl (++) [] ys
 
 -- | Search single term in the index
 searchTerm :: Index -> Text -> [DocName]
-searchTerm ix s = case Map.lookup (strToLower s) (index ix) of
+searchTerm ix s = case Map.lookup s (index ix) of
                     Just a -> a
                     Nothing -> []
                  

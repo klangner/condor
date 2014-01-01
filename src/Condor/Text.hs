@@ -1,5 +1,5 @@
 module Condor.Text 
-    ( strToLower
+    ( stem
     , tokenize
     ) where
     
@@ -18,5 +18,9 @@ tokenize xs = case dropWhile isSeparator xs of
 
 -- | Convert string to lower case                         
 strToLower :: String -> String
-strToLower xs = map toLower xs                         
+strToLower xs = map toLower xs               
+
+-- | Stemming words
+stem :: String -> String
+stem s = s        
 
