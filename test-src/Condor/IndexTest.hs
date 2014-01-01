@@ -22,6 +22,7 @@ testCases = [("Index", t) | t <- tests]
 tests :: [Test]
 tests = [ TestCase $ prop_empty
         , TestCase $ prop_size ("doc1", "one two three") 3
+        , TestCase $ prop_size ("doc1", "one and two or three") 3
         , TestCase $ prop_search "two" "doc1" [("doc1", "one two three")]
         , TestCase $ prop_search "one" "doc1" [ ("doc1", "one two three") 
                                               , ("doc2", "forty two")

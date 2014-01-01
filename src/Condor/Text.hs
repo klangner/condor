@@ -13,7 +13,6 @@ Functions which are specific to the given language can be found in
 Condor.Language.<language> modules. 
 
 -}
-
 module Condor.Text 
     ( stem
     , tokenize

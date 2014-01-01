@@ -18,7 +18,6 @@ Basic usage:
 > search index "content"
 
 -}
-
 module Condor.Index 
     ( DocName
     , Index
@@ -56,7 +55,7 @@ empty = Index Map.empty (IndexParams English.isStopWord English.stem)
 -- | Add document to the index
 add :: DocName -> Text -> Index -> Index
 add d c ix = Index (foldl f (index ix) ws) (params ix)
-    where ws = split (params ix) c
+    where ws = splitWords (params ix) c
           f i t = case Map.lookup t i of 
                     Just a -> Map.insert t (d:a) i
                     Nothing -> Map.insert t [d] i
@@ -66,7 +65,7 @@ add d c ix = Index (foldl f (index ix) ws) (params ix)
 search :: Index -> Text -> [DocName]
 search ix s = List.nub $ foldl (++) [] ys
     where ys = map (searchTerm ix) ws
-          ws = split (params ix) s
+          ws = splitWords (params ix) s
 
 
 -- | Search single term in the index
@@ -83,7 +82,9 @@ size ix = Map.size (index ix)
 
 -- | Split text into tokens.
 -- This function removes stop words and stems words
-split :: IndexParams -> String -> [String]
-split p s = dropWhile (ignore p) t
+splitWords :: IndexParams -> String -> [String]
+splitWords p s = filter f t
     where t = map (stemmer p) (tokenize s)
+          f = \x -> not ((ignore p) x)
+        
 
