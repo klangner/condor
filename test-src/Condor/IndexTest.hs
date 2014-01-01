@@ -1,3 +1,15 @@
+{- |
+Module : Condor.IndexTest
+Copyright : Copyright (C) 2013-2014 Krzysztof Langner
+License : The MIT License (MIT)
+
+Maintainer : Krzysztof Langner <klangner@gmail.com>
+Stability : alpha
+Portability : portable
+
+Unit tests for Condor.Index module
+-}
+
 module Condor.IndexTest (testCases) where
 
 import Condor.Index
