@@ -1,5 +1,5 @@
 {- |
-Module : Condor.Language.English
+Module : Condor.Language.English.StopWords
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 

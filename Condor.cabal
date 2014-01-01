@@ -43,6 +43,7 @@ test-suite unit-tests
                   Condor.Index,
                   Condor.IndexTest,
                   Condor.Language.English.Porter2,
+                  Condor.Language.English.Porter2Test,
                   Condor.Language.English.StopWords,
                   Condor.Text,
                   Condor.TextTest,
