@@ -23,7 +23,8 @@ library
   ghc-options:      -Wall
   exposed-modules:  Condor.Index
   other-modules:    
-                    Condor.Language.English,
+                    Condor.Language.English.Porter2,
+                    Condor.Language.English.StopWords,
                     Condor.Text
   build-depends:    
                     base,
@@ -41,7 +42,8 @@ test-suite unit-tests
   other-modules:   
                   Condor.Index,
                   Condor.IndexTest,
-                  Condor.Language.English,
+                  Condor.Language.English.Porter2,
+                  Condor.Language.English.StopWords,
                   Condor.Text,
                   Condor.TextTest,
                   Distribution.TestSuite.HUnit

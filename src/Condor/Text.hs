@@ -14,8 +14,7 @@ Condor.Language.<language> modules.
 
 -}
 module Condor.Text 
-    ( stem
-    , tokenize
+    ( tokenize
     ) where
     
 import Data.Char (toLower)
@@ -34,8 +33,4 @@ tokenize xs = case dropWhile isSeparator xs of
 -- | Convert string to lower case                         
 strToLower :: String -> String
 strToLower xs = map toLower xs               
-
--- | Stemming words
-stem :: String -> String
-stem s = s        
 

@@ -31,7 +31,8 @@ module Condor.Index
 import qualified Data.Map as Map
 import qualified Data.List as List
 import Condor.Text
-import qualified Condor.Language.English as English
+import Condor.Language.English.StopWords (isStopWord)
+import Condor.Language.English.Porter2 (stem)
 
 
 type DocName = String
@@ -49,7 +50,7 @@ data Index = Index { index :: Map.Map String [String]
 -- | Create empty index. 
 -- This index will be configured for english language.
 empty :: Index
-empty = Index Map.empty (IndexParams English.isStopWord English.stem)
+empty = Index Map.empty (IndexParams isStopWord stem)
 
 
 -- | Add document to the index

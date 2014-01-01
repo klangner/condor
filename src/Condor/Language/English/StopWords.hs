@@ -10,17 +10,10 @@ Portability : portable
 Module contains functions specific to the english language
 
 -}
-module Condor.Language.English 
-    ( isStopWord
-    , stem
-    ) where
+module Condor.Language.English.StopWords (isStopWord) where
     
 import Data.Set    
     
-
--- | Stemming words
-stem :: String -> String
-stem s = s        
 
 -- | Predicate to check if given words is a stop word
 isStopWord :: String -> Bool
@@ -155,4 +148,3 @@ stopWords = fromList [ "i"
                      , "should"
                      , "now"
                      ]
-
