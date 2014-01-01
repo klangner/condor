@@ -34,3 +34,5 @@ Search documents
 search idx1 "content"
 ["My document"]
 ```
+
+This is alpha version of the library. This means that the API can change in next releases.
