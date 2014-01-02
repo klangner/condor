@@ -1,7 +1,7 @@
 # Condor
 
 Condor is Haskell Information Retrieval (IR) library which currently consists of the following modules:
-* Condor.Index - Indexing and searching text documents.
+* Index (Condor.Index) - Indexing and searching text documents.
 
 ## Index API
 
