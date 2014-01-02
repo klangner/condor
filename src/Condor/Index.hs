@@ -32,7 +32,7 @@ import qualified Data.Map as Map
 import qualified Data.List as List
 import Condor.Text
 import Condor.Language.English.StopWords (isStopWord)
-import Condor.Language.English.Porter2 (stem)
+import Condor.Language.English.Porter (stem)
 
 
 type DocName = String
@@ -84,8 +84,8 @@ size ix = Map.size (index ix)
 -- | Split text into tokens.
 -- This function removes stop words and stems words
 splitWords :: IndexParams -> String -> [String]
-splitWords p s = filter f t
-    where t = map (stemmer p) (tokenize s)
+splitWords p s = map (stemmer p) (filter f t)
+    where t = tokenize s
           f = \x -> not ((ignore p) x)
         
 

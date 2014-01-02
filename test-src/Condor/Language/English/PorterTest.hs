@@ -10,23 +10,25 @@ Portability : portable
 Unit tests for Condor.Language.English.Porter2 module
 -}
 
-module Condor.Language.English.Porter2Test (testCases) where
+module Condor.Language.English.PorterTest (testCases) where
 
-import Condor.Language.English.Porter2
+import Condor.Language.English.Porter
 import Test.HUnit
 
 
 testCases :: [(String, Test)]
-testCases = [("Porter2", t) | t <- tests]
+testCases = [("Porter", t) | t <- tests]
 
 tests :: [Test]
 tests = [ TestCase $ prop_stem "consign" "consign"
-        , TestCase $ prop_stem "class's" "class"
+        , TestCase $ prop_stem "class's" "class'"
         , TestCase $ prop_stem "classes" "class"
         , TestCase $ prop_stem "cried" "cri"
-        , TestCase $ prop_stem "ties" "tie"
-        --, TestCase $ prop_stem "gas" "gas"
+        , TestCase $ prop_stem "ties" "ti"
+        , TestCase $ prop_stem "gas" "ga"
         , TestCase $ prop_stem "gaps" "gap"
+        , TestCase $ prop_stem "bleed" "bleed"
+        , TestCase $ prop_stem "guaranteed" "guarante"
         ]
          
 prop_stem :: String -> String -> Assertion         

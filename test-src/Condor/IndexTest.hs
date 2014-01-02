@@ -60,5 +60,5 @@ prop_search_count s n ds = assertEqual s n $ length (search idx s)
          
 -- | Check index size         
 prop_size :: (DocName, Text) -> Int -> Assertion
-prop_size (d, c) n = assertEqual "Index size" n (size $ add d c empty)         
+prop_size (d, c) n = assertEqual ("Index size: " ++ c) n (size $ add d c empty)         
     

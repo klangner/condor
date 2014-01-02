@@ -27,10 +27,10 @@ isSeparator s = elem s " .,!?"
 tokenize :: String -> [String]
 tokenize xs = case dropWhile isSeparator xs of
                    "" -> []
-                   s' -> strToLower w : tokenize s''
+                   s' -> foldCase w : tokenize s''
                          where (w, s'') = break isSeparator s'
 
 -- | Convert string to lower case                         
-strToLower :: String -> String
-strToLower xs = map toLower xs               
+foldCase :: String -> String
+foldCase xs = map toLower xs               
 
