@@ -23,6 +23,9 @@ main = do
     (command:args) <- getArgs
     let (Just action) = lookup command dispatch
     idx2 <- action args idx
+    -- This line is neccessary since otherwise there is problem with locked file
+    -- Lazy evaluation first open file for saving index 
+    putStrLn $ "Index size: " ++ show (Index.size idx2)
     writeIndex indexFile idx2   
 
 
