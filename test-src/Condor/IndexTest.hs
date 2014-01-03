@@ -12,6 +12,7 @@ Unit tests for Condor.Index module
 
 module Condor.IndexTest (testCases) where
 
+import Data.Binary
 import Condor.Index
 import Test.HUnit
 
@@ -36,10 +37,13 @@ tests = [ TestCase $ prop_empty
         , TestCase $ prop_search_count "two one" 2 [ ("doc1", "one two three") 
                                                    , ("doc2", "forty two")
                                                    ]
+        , TestCase $ prop_serialize [ ("doc1", "one two three") 
+                                    , ("doc2", "forty two")
+                                    ]                                                   
         ]
          
 -- | Helper function to populate index         
-indexFromDocs :: [(DocName, Text)] -> Index
+indexFromDocs :: [(DocName, Text)] -> IndexData
 indexFromDocs ds = foldl f empty ds
     where f i (d, c) = add d c i
 
@@ -61,4 +65,11 @@ prop_search_count s n ds = assertEqual s n $ length (search idx s)
 -- | Check index size         
 prop_size :: (DocName, Text) -> Int -> Assertion
 prop_size (d, c) n = assertEqual ("Index size: " ++ c) n (size $ add d c empty)         
+    
+-- | Check empty index         
+prop_serialize :: [(DocName, Text)] -> Assertion         
+prop_serialize ds = assertEqual "Serialize" (size idx) (size idx') 
+    where idx = indexFromDocs ds           
+          idx' = decode (encode idx)
+         
     

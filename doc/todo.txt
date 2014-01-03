@@ -1,0 +1,3 @@
+# TODO
+* Add serialization to the file
+* Add command line tool
