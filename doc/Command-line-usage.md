@@ -4,14 +4,14 @@
 
 
 ```bash
-condor --db=index.db index folder
+condor add folder
 ```
 Index all text documents in the given folder
 
 ```bash
-condor --db=index.db search term
+condor search term
 ```
 Search for given term.
 
-If --db parameter is omitted then default index is taken from index/index.db
+IndexData is saved in data/index.db
 

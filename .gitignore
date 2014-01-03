@@ -1,4 +1,4 @@
 /.settings
 /dist
 /.dist-buildwrapper
-/datasets
+/index.db

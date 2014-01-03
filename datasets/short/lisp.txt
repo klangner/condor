@@ -1,0 +1,5 @@
+ Common Lisp is the modern, multi-paradigm, high-performance, compiled, ANSI-standardized descendant of the long-running family of Lisp programming languages.
+
+Common Lisp is known for being extremely flexible, having excellent support for object oriented programming, and fast prototyping capabilities. It also sports an extremely powerful macro system that allows you to tailor the language to your application, and a flexible run-time environment that allows modification and debugging of running applications (excellent for server-side development and long-running critical software).
+
+Common Lisp is a multi-paradigm programming language that allows you to to choose the approach and paradigm according to your application domain. 
