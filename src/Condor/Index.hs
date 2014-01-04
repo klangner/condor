@@ -17,8 +17,10 @@ module Condor.Index
     , Index
     , DocContent
     , addDocument
+    , addDocTerms
     , emptyIndex
     , search
+    , searchTerms
     , termCount
     ) where
 
@@ -32,59 +34,59 @@ import Condor.Language.English.Porter (stem)
 
 type DocName = String
 type DocContent = String
-
--- | Index parameters. Those parameters can be used to change how
--- the text is processed before adding to the index
-data IndexParams = IndexParams { ignore :: String -> Bool
-                               , stemmer :: String -> String
-                               }
-                               
--- An instance of Binary to encode and decode an IndexParams in binary
-instance Binary IndexParams where
-     put _ = put (0 :: Word8)
-     get = do tag <- getWord8
-              case tag of
-                  _ -> return $ IndexParams isStopWord stem                        
+type Term = String
 
 -- | Inverted index
 data Index = Index { terms :: Map.Map String [String]
-                   , params :: IndexParams
                    }
 
 -- An instance of Binary to encode and decode an IndexParams in binary
 instance Binary Index where
      put i = do put (terms i)
-                put (params i)
      get = do i <- get
-              p <- get
-              return $ Index i p                        
+              return $ Index i                        
 
 
 -- | Create empty index. 
 -- This index will be configured for english language.
 emptyIndex :: Index
-emptyIndex = Index Map.empty (IndexParams isStopWord stem)
+emptyIndex = Index Map.empty
 
 
--- | Add document to the index
+-- | Add document to the index.
+-- This function uses algorithms for english language to split document content
+-- into index terms.
 addDocument :: DocName -> DocContent -> Index -> Index
-addDocument d c ix = Index (foldl f (terms ix) ws) (params ix)
-    where ws = splitWords (params ix) c
-          f i t = case Map.lookup t i of 
+addDocument d c idx = addDocTerms d (splitTerms c) idx
+
+
+-- | Add document to the index.
+-- This function should be used if document content should be splitted into terms
+-- with custom algorithms.
+addDocTerms :: DocName -> [Term] -> Index -> Index
+addDocTerms d c ix = Index (foldl f (terms ix) c)
+    where f i t = case Map.lookup t i of 
                     Just a -> Map.insert t (d:a) i
                     Nothing -> Map.insert t [d] i
 
 
--- | Search term in the index
-search :: Index -> DocContent -> [DocName]
-search ix s = List.nub $ foldl (++) [] ys
-    where ys = map (searchTerm ix) ws
-          ws = splitWords (params ix) s
+-- | Search terms given as single string in the index
+-- This function uses algorithms for english language to split query into tokens.
+search :: Index -> String -> [DocName]
+search ix s = searchTerms ix (splitTerms s)
+
+
+-- | Search terms given as array in the index.
+-- This function should be used if query should be splitted into terms
+-- with custom algorithms
+searchTerms :: Index -> [Term] -> [DocName]
+searchTerms ix s = List.nub $ foldl (++) [] ys
+    where ys = map (findDocs ix) s
 
 
 -- | Search single term in the index
-searchTerm :: Index -> String -> [DocName]
-searchTerm ix s = case Map.lookup s (terms ix) of
+findDocs :: Index -> Term -> [DocName]
+findDocs ix s = case Map.lookup s (terms ix) of
                     Just a -> a
                     Nothing -> []
                  
@@ -94,11 +96,10 @@ termCount :: Index -> Int
 termCount ix = Map.size (terms ix)
 
 
--- | Split text into tokens.
+-- | Split text into terms.
 -- This function removes stop words and stems words
-splitWords :: IndexParams -> String -> [String]
-splitWords p s = map (stemmer p) (filter f t)
+splitTerms :: String -> [Term]
+splitTerms s = map stem (filter (not . isStopWord) t)
     where t = tokenize s
-          f = \x -> not ((ignore p) x)
         
 
