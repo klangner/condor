@@ -22,8 +22,8 @@ testCases = [("Index", t) | t <- tests]
 
 tests :: [Test]
 tests = [ TestCase $ prop_empty
-        , TestCase $ prop_size ("doc1", "one two three") 3
-        , TestCase $ prop_size ("doc1", "one and two or three") 3
+        , TestCase $ prop_termCount ("doc1", "one two three") 3
+        , TestCase $ prop_termCount ("doc1", "one and two or three") 3
         , TestCase $ prop_search "two" "doc1" [("doc1", "one two three")]
         , TestCase $ prop_search "one" "doc1" [ ("doc1", "one two three") 
                                               , ("doc2", "forty two")
@@ -43,14 +43,14 @@ tests = [ TestCase $ prop_empty
         ]
          
 -- | Helper function to populate index         
-indexFromDocs :: [(DocName, Text)] -> IndexData
-indexFromDocs ds = foldl f empty ds
-    where f i (d, c) = add d c i
+indexFromDocs :: [(DocName, Text)] -> Index
+indexFromDocs ds = foldl f emptyIndex ds
+    where f i (d, c) = addDocument d c i
 
          
 -- | Check empty index         
 prop_empty :: Assertion         
-prop_empty = assertEqual "Empty index has 0 size" 0 (size empty)          
+prop_empty = assertEqual "Empty index has 0 size" 0 (termCount emptyIndex)          
          
 -- | Check if document is found         
 prop_search :: String -> DocName -> [(DocName, Text)] ->  Assertion         
@@ -62,13 +62,13 @@ prop_search_count :: String -> Int -> [(DocName, Text)] ->  Assertion
 prop_search_count s n ds = assertEqual s n $ length (search idx s)
     where idx = indexFromDocs ds
          
--- | Check index size         
-prop_size :: (DocName, Text) -> Int -> Assertion
-prop_size (d, c) n = assertEqual ("Index size: " ++ c) n (size $ add d c empty)         
+-- | Check number of terms         
+prop_termCount :: (DocName, Text) -> Int -> Assertion
+prop_termCount (d, c) n = assertEqual ("Index size: " ++ c) n (termCount $ addDocument d c emptyIndex)         
     
 -- | Check empty index         
 prop_serialize :: [(DocName, Text)] -> Assertion         
-prop_serialize ds = assertEqual "Serialize" (size idx) (size idx') 
+prop_serialize ds = assertEqual "Serialize" (termCount idx) (termCount idx') 
     where idx = indexFromDocs ds           
           idx' = decode (encode idx)
          

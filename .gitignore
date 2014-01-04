@@ -2,3 +2,4 @@
 /dist
 /.dist-buildwrapper
 /index.db
+/cabal-dev

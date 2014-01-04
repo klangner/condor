@@ -5,14 +5,14 @@ Create empty index
 ```Haskell
 import Condor.Index
 
-let idx = empty
+let idx = emptyIndex
 ```
 
 
 Add document to the index
 
 ```Haskell
-let idx1 = add idx "My document" "This is a document content."
+let idx1 = addDocument idx "My document" "This is a document content."
 ```
 
 

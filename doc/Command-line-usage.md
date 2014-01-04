@@ -4,14 +4,14 @@
 
 
 ```bash
-condor add folder
+condor index <directory>
 ```
-Index all text documents in the given folder
+Index all text documents in the given directory
 
 ```bash
 condor search term
 ```
 Search for given term.
 
-IndexData is saved in data/index.db
+IndexData is saved in the file index.db
 

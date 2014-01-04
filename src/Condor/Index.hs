@@ -9,7 +9,7 @@ Portability : portable
 
 This module contains functions which create, update and search index. 
 Default implementation uses algorithms for english language (stemming, stop words etc.)
-But it should be possible to customize it for any language by modifying IndexData data type.
+But it should be possible to customize it for any language by modifying Index data type.
 
 Basic usage:
 > import Consodr.Index
@@ -20,12 +20,12 @@ Basic usage:
 -}
 module Condor.Index 
     ( DocName
-    , IndexData
+    , Index
     , Text
-    , add
-    , empty
+    , addDocument
+    , emptyIndex
     , search
-    , size
+    , termCount
     ) where
 
 import qualified Data.Map as Map
@@ -40,7 +40,7 @@ type DocName = String
 
 type Text = String
 
--- | IndexData parameters. Those parameters can be used to change how
+-- | Index parameters. Those parameters can be used to change how
 -- the text is processed before adding to the index
 data IndexParams = IndexParams { ignore :: String -> Bool
                                , stemmer :: String -> String
@@ -54,28 +54,28 @@ instance Binary IndexParams where
                   _ -> return $ IndexParams isStopWord stem                        
 
 -- | Inverted index
-data IndexData = IndexData { index :: Map.Map String [String]
+data Index = Index { terms :: Map.Map String [String]
                    , params :: IndexParams
                    }
 
 -- An instance of Binary to encode and decode an IndexParams in binary
-instance Binary IndexData where
-     put i = do put (index i)
+instance Binary Index where
+     put i = do put (terms i)
                 put (params i)
      get = do i <- get
               p <- get
-              return $ IndexData i p                        
+              return $ Index i p                        
 
 
 -- | Create empty index. 
 -- This index will be configured for english language.
-empty :: IndexData
-empty = IndexData Map.empty (IndexParams isStopWord stem)
+emptyIndex :: Index
+emptyIndex = Index Map.empty (IndexParams isStopWord stem)
 
 
 -- | Add document to the index
-add :: DocName -> Text -> IndexData -> IndexData
-add d c ix = IndexData (foldl f (index ix) ws) (params ix)
+addDocument :: DocName -> Text -> Index -> Index
+addDocument d c ix = Index (foldl f (terms ix) ws) (params ix)
     where ws = splitWords (params ix) c
           f i t = case Map.lookup t i of 
                     Just a -> Map.insert t (d:a) i
@@ -83,22 +83,22 @@ add d c ix = IndexData (foldl f (index ix) ws) (params ix)
 
 
 -- | Search term in the index
-search :: IndexData -> Text -> [DocName]
+search :: Index -> Text -> [DocName]
 search ix s = List.nub $ foldl (++) [] ys
     where ys = map (searchTerm ix) ws
           ws = splitWords (params ix) s
 
 
 -- | Search single term in the index
-searchTerm :: IndexData -> Text -> [DocName]
-searchTerm ix s = case Map.lookup s (index ix) of
+searchTerm :: Index -> Text -> [DocName]
+searchTerm ix s = case Map.lookup s (terms ix) of
                     Just a -> a
                     Nothing -> []
                  
 
--- | Get index size
-size :: IndexData -> Int
-size ix = Map.size (index ix)
+-- | Get the number of terms in indexs
+termCount :: Index -> Int
+termCount ix = Map.size (terms ix)
 
 
 -- | Split text into tokens.

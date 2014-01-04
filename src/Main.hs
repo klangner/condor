@@ -6,13 +6,12 @@ import System.Directory (getDirectoryContents, doesDirectoryExist)
 import Control.Exception
 import Control.Monad
 import Data.Binary
-import GHC.DataSize
-import qualified Condor.Index as Index
+import Condor.Index
 
 
 -- | Commands dispatcher
-dispatch :: [(String, [String] -> Index.IndexData -> IO Index.IndexData)]  
-dispatch =  [ ("add", addCmd)  
+dispatch :: [(String, [String] -> Index -> IO Index)]  
+dispatch =  [ ("index", indexCmd)  
             , ("search", searchCmd)  
             ]
 indexFile :: FilePath            
@@ -27,52 +26,51 @@ main = do
     idx2 <- action args idx
     -- This line is neccessary since otherwise there is problem with locked file
     -- Lazy evaluation first opens file for saving index 
-    putStrLn $ "Entries count: " ++ show (Index.size idx2)
+    putStrLn $ "Entries count: " ++ show (termCount idx2)
     writeIndex indexFile idx2   
 
 
 -- | Read Index data from file
-readIndex :: FilePath -> IO Index.IndexData
+readIndex :: FilePath -> IO Index
 readIndex p = decodeFile p
 
 -- | Create empty index if can't read from file
-readIndexError :: IOError -> IO Index.IndexData
-readIndexError _ = return Index.empty
+readIndexError :: IOError -> IO Index
+readIndexError _ = return emptyIndex
 
 -- | Write index data to the file
-writeIndex :: FilePath -> Index.IndexData -> IO ()
+writeIndex :: FilePath -> Index -> IO ()
 writeIndex p i = do encodeFile p i
 
--- | Command to add all files from given folder to the index 
-addCmd :: [String] -> Index.IndexData -> IO Index.IndexData      
-addCmd (p:_) idx = do 
+-- | Command to index all files from given folder 
+indexCmd :: [String] -> Index -> IO Index      
+indexCmd (p:_) idx = do 
     putStrLn $ "Added folder: " ++ p
     ds <- getDirectoryContents p  
-    fs <- filterM (fmap not . doesDirectoryExist) ds
-    let ps = map ((p++"/")++) fs
-    idx2 <- foldM addFile idx ps
+    let ps = map ((p++"/")++) ds
+    fs <- filterM (fmap not . doesDirectoryExist) ps
+    idx2 <- foldM addFile idx fs
     return idx2
-addCmd _ _ = error "add command requires path to the documents"
+indexCmd _ _ = error "add command requires path to the documents"
 
 -- | Add file to the index
-addFile :: Index.IndexData -> FilePath -> IO Index.IndexData
+addFile :: Index -> FilePath -> IO Index
 addFile idx p = do
     putStrLn $ "Load content from: " ++ p
     withFile p ReadMode (\h -> do
-        hSetEncoding h utf8_bom  
+        hSetEncoding h utf8
         contents <- hGetContents h  
-        let idx2 = Index.add p contents idx
-        size <- recursiveSize idx2
         putStrLn $ "Content length: " ++ show (length contents)
-        putStrLn $ "Index size: " ++ show ((size `div` 1000)::Int) ++ "KB"
+        let idx2 = addDocument p contents idx
+        putStrLn $ "Index entries: " ++ show (termCount idx2)
         return idx2  
         )  
     
 
 -- | Command tosearch index
-searchCmd :: [String] -> Index.IndexData -> IO Index.IndexData
+searchCmd :: [String] -> Index -> IO Index
 searchCmd (t:_) idx = do 
-    let result = Index.search idx t
+    let result = search idx t
     putStrLn $ "Search term: " ++ show t ++ " found in documents: "
     _ <- mapM putStrLn result
     return idx
