@@ -1,5 +1,5 @@
 name:           Condor
-version:        0.1
+version:        0.2
 cabal-version:  >= 1.10
 build-type:     Simple
 author:         Krzysztof Langner
@@ -31,6 +31,7 @@ executable condor
                     filepath >=1.3.0 && <1.4
   ghc-options:      -Wall
   other-modules:   
+                    IO,
                     Condor.Text,
                     Condor.Index
 

@@ -2,15 +2,15 @@ module Main where
 
 import System.Environment
 import System.IO
-import System.Directory (getDirectoryContents, doesDirectoryExist)
 import Control.Exception
 import Control.Monad
 import Data.Binary
 import Condor.Index
+import IO
 
 
 -- | Commands dispatcher
-dispatch :: [(String, [String] -> Index -> IO Index)]  
+dispatch :: [(String, [String] -> Index -> IO ())]  
 dispatch =  [ ("index", indexCmd)  
             , ("search", searchCmd)  
             ]
@@ -23,11 +23,7 @@ main = do
     idx <- (readIndex indexFile) `catch` readIndexError
     (command:args) <- getArgs
     let (Just action) = lookup command dispatch
-    idx2 <- action args idx
-    -- This line is neccessary since otherwise there is problem with locked file
-    -- Lazy evaluation first opens file for saving index 
-    putStrLn $ "Entries count: " ++ show (termCount idx2)
-    writeIndex indexFile idx2   
+    action args idx
 
 
 -- | Read Index data from file
@@ -43,20 +39,21 @@ writeIndex :: FilePath -> Index -> IO ()
 writeIndex p i = do encodeFile p i
 
 -- | Command to index all files from given folder 
-indexCmd :: [String] -> Index -> IO Index      
+indexCmd :: [String] -> Index -> IO ()      
 indexCmd (p:_) idx = do 
     putStrLn $ "Added folder: " ++ p
-    ds <- getDirectoryContents p  
-    let ps = map ((p++"/")++) ds
-    fs <- filterM (fmap not . doesDirectoryExist) ps
+    fs <- listFiles p
     idx2 <- foldM addFile idx fs
-    return idx2
+    -- This line is neccessary since otherwise there is problem with locked file
+    -- Lazy evaluation first opens file for saving index 
+    putStrLn $ "Entries count: " ++ show (termCount idx2)
+    writeIndex indexFile idx2   
 indexCmd _ _ = error "add command requires path to the documents"
 
 -- | Add file to the index
 addFile :: Index -> FilePath -> IO Index
 addFile idx p = do
-    putStrLn $ "Load content from: " ++ p
+    putStrLn $ "Load: " ++ p
     withFile p ReadMode (\h -> do
         hSetEncoding h utf8
         contents <- hGetContents h  
@@ -68,12 +65,12 @@ addFile idx p = do
     
 
 -- | Command tosearch index
-searchCmd :: [String] -> Index -> IO Index
+searchCmd :: [String] -> Index -> IO ()
 searchCmd (t:_) idx = do 
     let result = search idx t
     putStrLn $ "Search term: " ++ show t ++ " found in documents: "
     _ <- mapM putStrLn result
-    return idx
+    return ()
 searchCmd _ _ = error "search command requires search terms"
 
             
