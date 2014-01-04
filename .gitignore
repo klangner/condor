@@ -3,3 +3,4 @@
 /.dist-buildwrapper
 /index.db
 /cabal-dev
+/datasets
