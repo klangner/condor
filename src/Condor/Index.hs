@@ -31,7 +31,6 @@ import Condor.Language.English.Porter (stem)
 
 
 type DocName = String
-
 type DocContent = String
 
 -- | Index parameters. Those parameters can be used to change how
