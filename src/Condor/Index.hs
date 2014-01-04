@@ -11,17 +11,11 @@ This module contains functions which create, update and search index.
 Default implementation uses algorithms for english language (stemming, stop words etc.)
 But it should be possible to customize it for any language by modifying Index data type.
 
-Basic usage:
-> import Consodr.Index
->
-> index = add "My doc" "This is sample document content" empty
-> search index "content"
-
 -}
 module Condor.Index 
     ( DocName
     , Index
-    , Text
+    , DocContent
     , addDocument
     , emptyIndex
     , search
@@ -38,7 +32,7 @@ import Condor.Language.English.Porter (stem)
 
 type DocName = String
 
-type Text = String
+type DocContent = String
 
 -- | Index parameters. Those parameters can be used to change how
 -- the text is processed before adding to the index
@@ -74,7 +68,7 @@ emptyIndex = Index Map.empty (IndexParams isStopWord stem)
 
 
 -- | Add document to the index
-addDocument :: DocName -> Text -> Index -> Index
+addDocument :: DocName -> DocContent -> Index -> Index
 addDocument d c ix = Index (foldl f (terms ix) ws) (params ix)
     where ws = splitWords (params ix) c
           f i t = case Map.lookup t i of 
@@ -83,14 +77,14 @@ addDocument d c ix = Index (foldl f (terms ix) ws) (params ix)
 
 
 -- | Search term in the index
-search :: Index -> Text -> [DocName]
+search :: Index -> DocContent -> [DocName]
 search ix s = List.nub $ foldl (++) [] ys
     where ys = map (searchTerm ix) ws
           ws = splitWords (params ix) s
 
 
 -- | Search single term in the index
-searchTerm :: Index -> Text -> [DocName]
+searchTerm :: Index -> String -> [DocName]
 searchTerm ix s = case Map.lookup s (terms ix) of
                     Just a -> a
                     Nothing -> []

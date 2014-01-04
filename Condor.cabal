@@ -1,13 +1,15 @@
-name:           Condor
+name:           condor
 version:        0.1
 cabal-version:  >= 1.10
 build-type:     Simple
 author:         Krzysztof Langner
 maintainer:     klangner@gmail.com
 synopsis:       Information retrieval library
-description:    Library for processing text documents
+description:    Library for indexing and searching text documents
 homepage:       https://github.com/klangner/Condor
-category:       search, library, mit
+stability:      Unstable interface, incomplete features.
+category:       Search, Text, Library
+License:        MIT
 
 executable condor
   hs-source-dirs:   src
@@ -19,7 +21,7 @@ executable condor
                     containers >=0.5.0 && <0.6,
                     directory >=1.2.0 && <1.3,
                     filepath >=1.3.0 && <1.4
-  ghc-options:      -Wall -rtsopts -prof
+  ghc-options:      -Wall
   other-modules:   
                     Condor.Text,
                     Condor.Index
