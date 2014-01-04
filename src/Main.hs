@@ -1,10 +1,12 @@
 module Main where
 
 import System.Environment
+import System.IO
 import System.Directory (getDirectoryContents, doesDirectoryExist)
 import Control.Exception
 import Control.Monad
 import Data.Binary
+import GHC.DataSize
 import qualified Condor.Index as Index
 
 
@@ -24,8 +26,8 @@ main = do
     let (Just action) = lookup command dispatch
     idx2 <- action args idx
     -- This line is neccessary since otherwise there is problem with locked file
-    -- Lazy evaluation first open file for saving index 
-    putStrLn $ "Index size: " ++ show (Index.size idx2)
+    -- Lazy evaluation first opens file for saving index 
+    putStrLn $ "Entries count: " ++ show (Index.size idx2)
     writeIndex indexFile idx2   
 
 
@@ -55,14 +57,22 @@ addCmd _ _ = error "add command requires path to the documents"
 -- | Add file to the index
 addFile :: Index.IndexData -> FilePath -> IO Index.IndexData
 addFile idx p = do
-    contents <- readFile p     
-    return $ Index.add p contents idx  
+    putStrLn $ "Load content from: " ++ p
+    withFile p ReadMode (\h -> do
+        hSetEncoding h utf8_bom  
+        contents <- hGetContents h  
+        let idx2 = Index.add p contents idx
+        size <- recursiveSize idx2
+        putStrLn $ "Content length: " ++ show (length contents)
+        putStrLn $ "Index size: " ++ show ((size `div` 1000)::Int) ++ "KB"
+        return idx2  
+        )  
+    
 
 -- | Command tosearch index
 searchCmd :: [String] -> Index.IndexData -> IO Index.IndexData
 searchCmd (t:_) idx = do 
     let result = Index.search idx t
-    putStrLn $ "Index size: " ++ show (Index.size idx)
     putStrLn $ "Search term: " ++ show t ++ " found in documents: "
     _ <- mapM putStrLn result
     return idx
