@@ -8,8 +8,4 @@
 * Add fields
 * Allow to reindex documents
 * Introduce Document data structure
- 
 
-## Recently added
-2014-01-04 Add serialization to the file
-2014-01-03 Add command line tool
