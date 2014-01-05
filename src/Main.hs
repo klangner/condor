@@ -44,7 +44,7 @@ indexCmd (p:_) idx = do
     putStrLn $ "Added folder: " ++ p
     fs <- listFiles p
     idx2 <- foldM addFile idx fs
-    -- This line is neccessary since otherwise there is problem with locked file
+    -- This line is necessary since otherwise there is problem with locked file
     -- Lazy evaluation first opens file for saving index 
     putStrLn $ "Entries count: " ++ show (termCount idx2)
     writeIndex indexFile idx2   
