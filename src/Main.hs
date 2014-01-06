@@ -1,6 +1,8 @@
+{-# LANGUAGE BangPatterns #-}
 module Main where
 
 import System.Environment
+import System.IO
 import System.Directory (removeFile, renameFile)
 import Control.Exception
 import Control.Monad
@@ -73,11 +75,13 @@ indexFolder True idx p = do
 -- | Add file to the index
 addFile :: Index -> FilePath -> IO Index
 addFile idx p = do
-    putStrLn $ "Load: " ++ p
-    contents <- readFile p
-    -- putStrLn $ "Content length: " ++ show (length contents)
-    let idx2 = addDocument p contents idx
-    return idx2  
+    withFile p ReadMode (\h -> do
+        hSetEncoding h utf8
+        !contents <- hGetContents h  
+        let idx2 = addDocument p contents idx
+        hClose h
+        return idx2  
+        )      
      
 
 -- | Command tosearch index
