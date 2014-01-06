@@ -21,7 +21,7 @@ indexFile = "index.db"
 
 -- This is dummy main function (not working yet)
 main :: IO ()
-main = do    
+main = do
     idx <- (readIndex indexFile) `catch` readIndexError
     (command:args) <- getArgs
     let (Just action) = lookup command dispatch
@@ -30,7 +30,7 @@ main = do
 
 -- | Read Index data from file
 readIndex :: FilePath -> IO Index
-readIndex p = decodeFile p
+readIndex p = {-# SCC "read" #-} decodeFile p
 
 -- | Create empty index if can't read from file
 readIndexError :: IOError -> IO Index
@@ -87,7 +87,7 @@ addFile idx p = do
 -- | Command tosearch index
 searchCmd :: [String] -> Index -> IO ()
 searchCmd (t:_) idx = do 
-    let result = search idx t
+    let result = {-# SCC "search" #-} search idx t
     putStrLn $ "Search term: " ++ show t ++ " found in documents: "
     _ <- mapM putStrLn result
     return ()

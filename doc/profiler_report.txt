@@ -1,0 +1,12 @@
+Version 0.1
+
+Test set reuters-90/tests 
+* Dataset: 4.4MB on disk
+* index.db: 36MB
+* RAM taken: 880MB
+* search time for "aluminium": Very fast
+
+
+This is very naive index implementation. It is just a starting point 
+to help create structure of the program.
+The full reuters-90 dataset can be indexed, but runs out of the memory on search.
