@@ -1,7 +1,7 @@
 module Main where
 
 import System.Environment
-import System.IO
+import System.Directory (removeFile, renameFile)
 import Control.Exception
 import Control.Monad
 import Data.Binary
@@ -34,35 +34,51 @@ readIndex p = decodeFile p
 readIndexError :: IOError -> IO Index
 readIndexError _ = return emptyIndex
 
+-- | Silent IO error
+nullError :: IOError -> IO ()
+nullError _ = return ()
+
 -- | Write index data to the file
 writeIndex :: FilePath -> Index -> IO ()
-writeIndex p i = do encodeFile p i
+writeIndex p idx = do
+    putStrLn $ "Entries count: " ++ show (termCount idx)
+    let temp = p ++ ".temp" 
+    encodeFile temp idx
+    removeFile p `catch` nullError
+    renameFile temp p
 
 -- | Command to index all files from given folder 
 indexCmd :: [String] -> Index -> IO ()      
-indexCmd (p:_) idx = do 
+indexCmd [p] idx = do 
+    idx2 <- indexFolder False idx p
+    writeIndex indexFile idx2   
+indexCmd [p, "-r"] idx = do 
+    idx2 <- indexFolder True idx p
+    writeIndex indexFile idx2
+indexCmd _ _ = error "add command requires path to the documents"
+
+-- | Index given folder 
+indexFolder :: Bool -> Index -> FilePath -> IO Index      
+indexFolder False idx p = do 
     putStrLn $ "Added folder: " ++ p
     fs <- listFiles p
     idx2 <- foldM addFile idx fs
-    -- This line is necessary since otherwise there is problem with locked file
-    -- Lazy evaluation first opens file for saving index 
-    putStrLn $ "Entries count: " ++ show (termCount idx2)
-    writeIndex indexFile idx2   
-indexCmd _ _ = error "add command requires path to the documents"
+    return idx2
+indexFolder True idx p = do 
+    idx2 <- indexFolder False idx p
+    ds <- listDirs p
+    idx3 <- foldM (indexFolder True) idx2 ds
+    return idx3
 
 -- | Add file to the index
 addFile :: Index -> FilePath -> IO Index
 addFile idx p = do
     putStrLn $ "Load: " ++ p
-    withFile p ReadMode (\h -> do
-        hSetEncoding h utf8
-        contents <- hGetContents h  
-        putStrLn $ "Content length: " ++ show (length contents)
-        let idx2 = addDocument p contents idx
-        putStrLn $ "Index entries: " ++ show (termCount idx2)
-        return idx2  
-        )  
-    
+    contents <- readFile p
+    -- putStrLn $ "Content length: " ++ show (length contents)
+    let idx2 = addDocument p contents idx
+    return idx2  
+     
 
 -- | Command tosearch index
 searchCmd :: [String] -> Index -> IO ()
