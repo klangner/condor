@@ -13,6 +13,7 @@ Unit tests for Condor.Index module
 module Condor.IndexTest (testCases) where
 
 import Data.Binary
+import qualified Data.Text as T
 import Condor.Index
 import Test.HUnit
 
@@ -43,9 +44,9 @@ tests = [ TestCase $ prop_empty
         ]
          
 -- | Helper function to populate index         
-indexFromDocs :: [(DocName, DocContent)] -> Index
+indexFromDocs :: [([Char], DocContent)] -> Index
 indexFromDocs ds = foldl f emptyIndex ds
-    where f i (d, c) = addDocument d c i
+    where f i (d, c) = addDocument (T.pack d) c i
 
          
 -- | Check empty index         
@@ -53,21 +54,23 @@ prop_empty :: Assertion
 prop_empty = assertEqual "Empty index has 0 size" 0 (termCount emptyIndex)          
          
 -- | Check if document is found         
-prop_search :: String -> DocName -> [(DocName, DocContent)] ->  Assertion         
-prop_search s e ds = assertEqual s True $ elem e (search idx s)
+prop_search :: String -> [Char] -> [([Char], DocContent)] ->  Assertion         
+prop_search s e ds = assertEqual s True $ elem (T.pack e) (search idx s)
     where idx = indexFromDocs ds
 
 -- | Count number of returned documents          
-prop_search_count :: String -> Int -> [(DocName, DocContent)] ->  Assertion         
+prop_search_count :: String -> Int -> [([Char], DocContent)] ->  Assertion         
 prop_search_count s n ds = assertEqual s n $ length (search idx s)
     where idx = indexFromDocs ds
          
 -- | Check number of terms         
-prop_termCount :: (DocName, DocContent) -> Int -> Assertion
-prop_termCount (d, c) n = assertEqual ("Index size: " ++ c) n (termCount $ addDocument d c emptyIndex)         
+prop_termCount :: ([Char], DocContent) -> Int -> Assertion
+prop_termCount (d, c) n = assertEqual ("Index size: " ++ c) 
+                                      n 
+                                      (termCount $ addDocument (T.pack d) c emptyIndex)         
     
 -- | Check empty index         
-prop_serialize :: [(DocName, DocContent)] -> Assertion         
+prop_serialize :: [([Char], DocContent)] -> Assertion         
 prop_serialize ds = assertEqual "Serialize" (termCount idx) (termCount idx') 
     where idx = indexFromDocs ds           
           idx' = decode (encode idx)

@@ -7,6 +7,7 @@ import System.Directory (removeFile, renameFile)
 import Control.Exception
 import Control.Monad
 import Data.Binary
+import qualified Data.Text as T
 import Condor.Index
 import IO
 
@@ -78,7 +79,7 @@ addFile idx p = do
     withFile p ReadMode (\h -> do
         hSetEncoding h utf8
         !contents <- hGetContents h  
-        let idx2 = addDocument p contents idx
+        let idx2 = addDocument (T.pack p) contents idx
         hClose h
         return idx2  
         )      
@@ -89,7 +90,7 @@ searchCmd :: [String] -> Index -> IO ()
 searchCmd (t:_) idx = do 
     let result = {-# SCC "search" #-} search idx t
     putStrLn $ "Search term: " ++ show t ++ " found in documents: "
-    _ <- mapM putStrLn result
+    _ <- mapM (putStrLn . show) result
     return ()
 searchCmd _ _ = error "search command requires search terms"
 

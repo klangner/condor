@@ -26,18 +26,20 @@ module Condor.Index
 
 import qualified Data.Map as Map
 import qualified Data.List as List
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as E
 import Data.Binary
 import Condor.Text
 import Condor.Language.English.StopWords (isStopWord)
 import Condor.Language.English.Porter (stem)
 
 
-type DocName = String
+type DocName = T.Text
 type DocContent = String
 type Term = String
 
 -- | Inverted index
-data Index = Index { terms :: Map.Map String [String]
+data Index = Index { terms :: Map.Map Term [DocName]
                    }
 
 -- An instance of Binary to encode and decode an IndexParams in binary
@@ -45,6 +47,12 @@ instance Binary Index where
      put i = do put (terms i)
      get = do i <- get
               return $ Index i                        
+
+-- An instance of Binary to encode and decode T.Text
+instance Binary T.Text where
+     put i = do put (E.encodeUtf8 i)
+     get = do i <- get
+              return $ E.decodeUtf8 i                        
 
 
 -- | Create empty index. 
