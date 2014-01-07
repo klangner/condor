@@ -1,0 +1,37 @@
+Version 0.1
+
+Test set reuters-90/tests 
+* Dataset: 4.4MB on disk
+* RAM taken: 880MB
+* index.db: 36MB
+* search time for "aluminium": Very fast
+
+This is very naive index implementation. It is just a starting point 
+to help create structure of the program.
+The full reuters-90 dataset can be indexed, but runs out of the memory on search.
+
+Version 0.2
+
+1. Document name type changed from [Char] to Data.Text. 
+* Total RAM: 155MB
+* index.db: 36MB
+
+2. Post list as Int list. Documents as separate list
+* Total RAM: 38MB
+* index.db: 4MB
+
+Full Reuters 90
+* Dataset: 16MB on disk
+* Total RAM: 120MB
+* index.db: 16MB
+
+
+3. Switched to bigger dataset
+Dataset: 
+* Number of documents: 38K
+* Size on disk : 39MB
+* Indexing took 2GB RAM
+
+Profile session for search:
+* RAM taken: 300MB
+* index.db: 35MB
