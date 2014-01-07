@@ -6,7 +6,7 @@ Create empty index
 
 ```Haskell
 import Condor.Index
-import qualified Data.Text as T
+import Condor.DataTypes
 
 let idx = emptyIndex
 ```
@@ -15,7 +15,7 @@ let idx = emptyIndex
 Add document to the index
 
 ```Haskell
-let idx1 = addDocument idx (T.pack "My document") (T.pack "This is a document content.")
+let idx1 = addDocument idx $ docFromStrings "Document name" "This is a document content."
 ```
 
 
