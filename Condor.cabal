@@ -33,9 +33,10 @@ executable condor
 
   ghc-options:      -Wall -prof -rtsopts
   other-modules:   
-                    IO,
+                    Condor.Index,
+                    Condor.Readers.Text,
                     Condor.Text,
-                    Condor.Index
+                    IO
 
 library 
   hs-source-dirs:   src

@@ -1,14 +1,12 @@
-{-# LANGUAGE BangPatterns #-}
 module Main where
 
 import System.Environment
-import System.IO
 import System.Directory (removeFile, renameFile)
 import Control.Exception
 import Control.Monad
 import Data.Binary
 import Condor.Index
-import Condor.DataTypes (docFromStrings)
+import qualified Condor.Readers.Text as TextReader
 import IO
 
 
@@ -76,13 +74,9 @@ indexFolder True idx p = do
 -- | Add file to the index
 addFile :: Index -> FilePath -> IO Index
 addFile idx p = do
-    withFile p ReadMode (\h -> do
-        hSetEncoding h utf8
-        !contents <- hGetContents h  
-        let idx2 = addDocument (docFromStrings p contents) idx
-        hClose h
-        return idx2  
-        )      
+    doc <- TextReader.readDocument p
+    let idx2 = addDocument doc idx
+    return idx2  
      
 
 -- | Command tosearch index
