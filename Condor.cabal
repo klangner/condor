@@ -41,7 +41,9 @@ library
   hs-source-dirs:   src
   default-language: Haskell2010
   ghc-options:      -Wall
-  exposed-modules:  Condor.Index
+  exposed-modules:  
+                    Condor.Definition,
+                    Condor.Index
   other-modules:    
                     Condor.Language.English.Porter,
                     Condor.Language.English.StopWords,
@@ -66,6 +68,7 @@ test-suite unit-tests
                     text >=1 && <1.1
 
   other-modules:   
+                    Condor.Definition,
                     Condor.Index,
                     Condor.IndexTest,
                     Condor.Language.English.Porter,

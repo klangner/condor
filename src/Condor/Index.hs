@@ -16,7 +16,6 @@ Functions in this module (for performance reasons) are based on unicode strings 
 module Condor.Index 
     ( DocName
     , Index
-    , DocContent
     , addDocument
     , addDocTerms
     , emptyIndex
@@ -31,12 +30,11 @@ import qualified Data.Text as T
 import qualified Data.Text.Encoding as E
 import Data.Binary
 import Condor.Text
+import Condor.Definition (DocName, Document(..))
 import Condor.Language.English.StopWords (isStopWord)
 import Condor.Language.English.Porter (stem)
 
 
-type DocName = T.Text
-type DocContent = T.Text
 type Term = T.Text
 
 -- | Inverted index
@@ -69,8 +67,8 @@ emptyIndex = Index Map.empty []
 -- | Add document to the index.
 -- This function uses algorithms for english language to split document content
 -- into index terms.
-addDocument :: DocName -> DocContent -> Index -> Index
-addDocument d c idx = addDocTerms d (splitTerms c) idx
+addDocument :: Document -> Index -> Index
+addDocument (Document t c) idx = addDocTerms t (splitTerms c) idx
 
 
 -- | Add document to the index.

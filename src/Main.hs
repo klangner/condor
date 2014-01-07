@@ -7,8 +7,8 @@ import System.Directory (removeFile, renameFile)
 import Control.Exception
 import Control.Monad
 import Data.Binary
-import qualified Data.Text as T
 import Condor.Index
+import Condor.Definition (docFromStrings)
 import IO
 
 
@@ -79,7 +79,7 @@ addFile idx p = do
     withFile p ReadMode (\h -> do
         hSetEncoding h utf8
         !contents <- hGetContents h  
-        let idx2 = addDocument (T.pack p) (T.pack contents) idx
+        let idx2 = addDocument (docFromStrings p contents) idx
         hClose h
         return idx2  
         )      

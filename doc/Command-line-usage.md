@@ -4,9 +4,11 @@
 
 
 ```bash
-condor index <directory>
+condor index <directory> [-r]
 ```
 Index all text documents in the given directory
+Flags:
+    -r - recursive. Index all subdirectories.
 
 ```bash
 condor search term
