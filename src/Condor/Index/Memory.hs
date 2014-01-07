@@ -1,5 +1,5 @@
 {- |
-Module : Condor.Index
+Module : Condor.Index.Memory
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -7,13 +7,14 @@ Maintainer : Krzysztof Langner <klangner@gmail.com>
 Stability : alpha
 Portability : portable
 
+Memory based index.
 This module contains functions which create, update and search index. 
 Default implementation uses algorithms for english language (stemming, stop words etc.)
 
-Functions in this module (for performance reasons) are based on unicode strings Data.Text.
+Functions in this module (for performance reasons) are based on unicode strings from module Data.Text.
 
 -}
-module Condor.Index 
+module Condor.Index.Memory 
     ( Index
     , addDocument
     , addDocTerms
@@ -28,10 +29,11 @@ import qualified Data.List as List
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as E
 import Data.Binary
-import Condor.Text
-import Condor.DataTypes (DocName, Document(..), docName, docText)
-import Condor.Language.English.StopWords (isStopWord)
-import Condor.Language.English.Porter (stem)
+
+import Condor.NLP.Text
+import Condor.Commons.DataTypes (DocName, Document(..), docName, docText)
+import Condor.NLP.English.StopWords (isStopWord)
+import Condor.NLP.English.Porter (stem)
 
 
 type Term = T.Text

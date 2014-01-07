@@ -1,5 +1,5 @@
 {- |
-Module : Condor.IndexTest
+Module : Condor.NLP.IndexTest
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -10,10 +10,10 @@ Portability : portable
 Unit tests for Condor.Index module
 -}
 
-module Condor.StatisticsTest (testCases) where
+module Condor.NLP.StatisticsTest (testCases) where
 
 import qualified Data.Text as T
-import Condor.Statistics
+import Condor.NLP.Statistics
 import Test.HUnit
 
 

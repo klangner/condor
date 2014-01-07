@@ -1,5 +1,5 @@
 {- |
-Module : Condor.TextTest
+Module : Condor.NLP.TextTest
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -10,10 +10,10 @@ Portability : portable
 Unit tests for Condor.Text module
 -}
 
-module Condor.TextTest (testCases) where
+module Condor.NLP.TextTest (testCases) where
 
 import qualified Data.Text as T
-import Condor.Text
+import Condor.NLP.Text
 import Test.HUnit
 
 

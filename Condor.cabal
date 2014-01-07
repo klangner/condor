@@ -33,9 +33,10 @@ executable condor
 
   ghc-options:      -Wall
   other-modules:   
-                    Condor.Index,
+                    Condor.Commons.DataTypes,
+                    Condor.Index.Memory,
+                    Condor.NLP.Text,
                     Condor.Readers.Text,
-                    Condor.Text,
                     IO
 
 library 
@@ -43,13 +44,13 @@ library
   default-language: Haskell2010
   ghc-options:      -Wall
   exposed-modules:  
-                    Condor.DataTypes,
-                    Condor.Index,
-                    Condor.Language.English.Porter,
-                    Condor.Language.English.StopWords,
-                    Condor.Readers.Text,
-                    Condor.Statistics,
-                    Condor.Text
+                    Condor.Commons.DataTypes,
+                    Condor.Index.Memory,
+                    Condor.NLP.English.Porter,
+                    Condor.NLP.English.StopWords,
+                    Condor.NLP.Statistics,
+                    Condor.NLP.Text,
+                    Condor.Readers.Text
   build-depends:    
                     base >= 4 && <4.7,
                     containers >=0.5.0 && <0.6,
@@ -70,18 +71,17 @@ test-suite unit-tests
                     text >=1 && <1.1
 
   other-modules:   
-                    Condor.DataTypes,
-                    Condor.Index,
-                    Condor.IndexTest,
-                    Condor.Language.English.Porter,
-                    Condor.Language.English.PorterTest,
-                    Condor.Language.English.StopWords,
-                    Condor.Statistics,
-                    Condor.StatisticsTest,
-                    Condor.Text,
-                    Condor.TextTest,
+                    Condor.Commons.DataTypes,
+                    Condor.Index.Memory,
+                    Condor.Index.MemoryTest,
+                    Condor.NLP.English.Porter,
+                    Condor.NLP.English.PorterTest,
+                    Condor.NLP.English.StopWords,
+                    Condor.NLP.Statistics,
+                    Condor.NLP.StatisticsTest,
+                    Condor.NLP.Text,
+                    Condor.NLP.TextTest,
                     Distribution.TestSuite.HUnit
   hs-source-dirs:  
                     src,
                     test-src
-

@@ -14,7 +14,7 @@ Uses bang patters to force hGetContents to read file
 module Condor.Readers.Text(readDocument) where
 
 import System.IO
-import Condor.DataTypes (Document, docFromStrings)
+import Condor.Commons.DataTypes (Document, docFromStrings)
 
     
 -- | read text as UTF8 and return as document

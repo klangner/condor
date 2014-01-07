@@ -1,5 +1,5 @@
 {- |
-Module : Condor.Text
+Module : Condor.NLP.Text
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -13,7 +13,7 @@ Functions which are specific to the given language can be found in
 Condor.Language.<language> modules. 
 
 -}
-module Condor.Text 
+module Condor.NLP.Text 
     ( tokenize
     ) where
     

@@ -1,8 +1,11 @@
+Version 0.3 2014-01
+* Refactored modules
+
+
 Version 0.2 2014-01-08
 * Changes in Index API
 * Add recursive option to command line tool.
 * Post list contains document id instead of document name. 
-
 
 
 Version 0.1 2014-01-04 

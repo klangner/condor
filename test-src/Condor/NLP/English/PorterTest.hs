@@ -1,5 +1,5 @@
 {- |
-Module : Condor.Language.English.Porter2Test
+Module : Condor.NLP.English.Porter2Test
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -10,10 +10,10 @@ Portability : portable
 Unit tests for Condor.Language.English.Porter2 module
 -}
 
-module Condor.Language.English.PorterTest (testCases) where
+module Condor.NLP.English.PorterTest (testCases) where
 
 import qualified Data.Text as T
-import Condor.Language.English.Porter
+import Condor.NLP.English.Porter
 import Test.HUnit
 
 

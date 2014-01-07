@@ -1,5 +1,5 @@
 {- |
-Module : Condor.Language.English.StopWords
+Module : Condor.NLP.English.StopWords
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -10,7 +10,7 @@ Portability : portable
 Module contains functions specific to the english language
 
 -}
-module Condor.Language.English.StopWords (isStopWord) where
+module Condor.NLP.English.StopWords (isStopWord) where
     
 import qualified Data.Set as S    
 import qualified Data.Text as T
