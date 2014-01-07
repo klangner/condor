@@ -14,8 +14,7 @@ Functions in this module (for performance reasons) are based on unicode strings 
 
 -}
 module Condor.Index 
-    ( DocName
-    , Index
+    ( Index
     , addDocument
     , addDocTerms
     , emptyIndex

@@ -48,6 +48,7 @@ library
                     Condor.Language.English.Porter,
                     Condor.Language.English.StopWords,
                     Condor.Readers.Text,
+                    Condor.Statistics,
                     Condor.Text
   build-depends:    
                     base >= 4 && <4.7,
@@ -69,15 +70,17 @@ test-suite unit-tests
                     text >=1 && <1.1
 
   other-modules:   
+                    Condor.DataTypes,
                     Condor.Index,
                     Condor.IndexTest,
                     Condor.Language.English.Porter,
                     Condor.Language.English.PorterTest,
                     Condor.Language.English.StopWords,
+                    Condor.Statistics,
+                    Condor.StatisticsTest,
                     Condor.Text,
                     Condor.TextTest,
-                    Distribution.TestSuite.HUnit,
-                    Condor.DataTypes
+                    Distribution.TestSuite.HUnit
   hs-source-dirs:  
                     src,
                     test-src

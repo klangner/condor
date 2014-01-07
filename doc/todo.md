@@ -6,5 +6,6 @@
 * Catch exception on wrong files.
 * Find documents fragments (2-3 sentences)
 * Add fields
+* Add document statistics
 
 

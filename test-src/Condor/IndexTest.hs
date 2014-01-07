@@ -14,7 +14,7 @@ module Condor.IndexTest (testCases) where
 
 import Data.Binary
 import qualified Data.Text as T
-import Condor.DataTypes (DocName, Document(..), docFromStrings)
+import Condor.DataTypes (DocName, Document, docFromStrings)
 import Condor.Index
 import Test.HUnit
 
