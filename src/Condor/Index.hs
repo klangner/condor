@@ -30,7 +30,7 @@ import qualified Data.Text as T
 import qualified Data.Text.Encoding as E
 import Data.Binary
 import Condor.Text
-import Condor.Definition (DocName, Document(..))
+import Condor.DataTypes (DocName, Document(..), docName, docText)
 import Condor.Language.English.StopWords (isStopWord)
 import Condor.Language.English.Porter (stem)
 
@@ -68,7 +68,8 @@ emptyIndex = Index Map.empty []
 -- This function uses algorithms for english language to split document content
 -- into index terms.
 addDocument :: Document -> Index -> Index
-addDocument (Document t c) idx = addDocTerms t (splitTerms c) idx
+addDocument d idx = addDocTerms (docName d) (splitTerms content) idx
+    where content = docText d
 
 
 -- | Add document to the index.

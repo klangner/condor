@@ -8,7 +8,7 @@ import Control.Exception
 import Control.Monad
 import Data.Binary
 import Condor.Index
-import Condor.Definition (docFromStrings)
+import Condor.DataTypes (docFromStrings)
 import IO
 
 
