@@ -31,7 +31,7 @@ executable condor
                     filepath >=1.3.0 && <1.4,
                     text >=1 && <1.1
 
-  ghc-options:      -Wall -prof -rtsopts
+  ghc-options:      -Wall
   other-modules:   
                     Condor.Index,
                     Condor.Readers.Text,
@@ -43,11 +43,11 @@ library
   default-language: Haskell2010
   ghc-options:      -Wall
   exposed-modules:  
+                    Condor.DataTypes,
                     Condor.Index,
-                    Condor.DataTypes
-  other-modules:    
                     Condor.Language.English.Porter,
                     Condor.Language.English.StopWords,
+                    Condor.Readers.Text,
                     Condor.Text
   build-depends:    
                     base >= 4 && <4.7,
