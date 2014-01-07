@@ -40,14 +40,18 @@ type DocContent = T.Text
 type Term = T.Text
 
 -- | Inverted index
-data Index = Index { terms :: Map.Map Term [DocName]
+data Index = Index { terms :: Map.Map Term [Int]
+                   , docs :: [DocName]
                    }
 
 -- An instance of Binary to encode and decode an IndexParams in binary
 instance Binary Index where
-     put i = do put (terms i)
+     put i = do 
+            put (terms i)
+            put (docs i)
      get = do i <- get
-              return $ Index i                        
+              d <- get
+              return $ Index i d                        
 
 -- An instance of Binary to encode and decode T.Text
 instance Binary T.Text where
@@ -59,7 +63,7 @@ instance Binary T.Text where
 -- | Create empty index. 
 -- This index will be configured for english language.
 emptyIndex :: Index
-emptyIndex = Index Map.empty
+emptyIndex = Index Map.empty []
 
 
 -- | Add document to the index.
@@ -73,10 +77,11 @@ addDocument d c idx = addDocTerms d (splitTerms c) idx
 -- This function should be used if document content should be splitted into terms
 -- with custom algorithms.
 addDocTerms :: DocName -> [Term] -> Index -> Index
-addDocTerms d c ix = Index (foldl f (terms ix) c)
-    where f i t = case Map.lookup t i of 
-                    Just a -> Map.insert t (d:a) i
-                    Nothing -> Map.insert t [d] i
+addDocTerms d c ix = Index (foldl f (terms ix) c) (d:docs ix)
+    where f ix' t = case Map.lookup t ix' of 
+                    Just a -> Map.insert t (index:a) ix'
+                    Nothing -> Map.insert t [index] ix'
+          index = length (docs ix)
 
 
 -- | Search terms given as single string in the index
@@ -96,7 +101,7 @@ searchTerms ix s = List.nub $ foldl (++) [] ys
 -- | Search single term in the index
 findDocs :: Index -> Term -> [DocName]
 findDocs ix s = case Map.lookup s (terms ix) of
-                    Just a -> a
+                    Just a -> map ((reverse (docs ix))!!) a
                     Nothing -> []
                  
 

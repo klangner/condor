@@ -19,28 +19,53 @@ import Test.HUnit
 
 
 testCases :: [(String, Test)]
-testCases = [("Index", t) | t <- tests]
-
-tests :: [Test]
-tests = [ TestCase $ prop_empty
-        , TestCase $ prop_termCount (T.pack "doc1", T.pack "one two three") 3
-        , TestCase $ prop_termCount (T.pack "doc1", T.pack "one and two or three") 3
-        , TestCase $ prop_search "two" (T.pack  "doc1") [ (T.pack "doc1", T.pack "one two three")]
-        , TestCase $ prop_search "one" (T.pack  "doc1") [ (T.pack "doc1", T.pack "one two three") 
-                                                        , (T.pack "doc2", T.pack "forty two")
-                                                        ]
-        , TestCase $ prop_search "two" (T.pack "doc2") [ (T.pack "doc1", T.pack "one two three") 
-                                                       , (T.pack "doc2", T.pack "forty two")
-                                                       ]
-        , TestCase $ prop_search "two" (T.pack "doc1") [(T.pack "doc1", T.pack "One Two Three")]
-        , TestCase $ prop_search "Three" (T.pack "doc1") [(T.pack "doc1", T.pack "one two three")]
-        , TestCase $ prop_search "one Three" (T.pack "doc1") [(T.pack "doc1", T.pack "one two three")]
-        , TestCase $ prop_search_count "two one" 2 [ (T.pack "doc1", T.pack "one two three") 
-                                                   , (T.pack "doc2", T.pack "forty two")
-                                                   ]
-        , TestCase $ prop_serialize [ (T.pack "doc1", T.pack "one two three") 
-                                    , (T.pack "doc2", T.pack "forty two")
-                                    ]                                                   
+testCases = [ ( "Empty index has length 0"
+              , TestCase $ prop_empty)
+            
+            , ( "Space separates terms"
+              , TestCase $ prop_termCount (T.pack "doc1", T.pack "one two three") 3)
+              
+            , ( "Check stop words"
+              , TestCase $ prop_termCount (T.pack "doc1", T.pack "one and two or three") 3)
+              
+            , ( "Search for term with the same case"
+               , TestCase $ prop_search "two" (T.pack "doc1") [ (T.pack "doc1"
+                                                              , T.pack "one two three")])
+               
+            , ( "Search for first term"
+              , TestCase $ prop_search "one" (T.pack "doc1") [ (T.pack "doc1", T.pack "one two three") 
+                                                             , (T.pack "doc2", T.pack "forty two")
+                                                             ])
+                                       
+            , ( "Search for term in second document"
+              , TestCase $ prop_search "two" (T.pack "doc2") [ (T.pack "doc1", T.pack "one two three") 
+                                                             , (T.pack "doc2", T.pack "forty two")
+                                                             ])
+                                                             
+            , ( "Search for lower case term. Document has upper case"
+              , TestCase $ prop_search "two" (T.pack "doc1") [(T.pack "doc1", T.pack "One Two Three")])
+              
+            , ( "Search for upperr case term. Document has lower case"
+              , TestCase $ prop_search "Three" (T.pack "doc1") [(T.pack "doc1", T.pack "one two three")])
+              
+            , ( "Search for 2 terms"
+              , TestCase $ prop_search "one Three" (T.pack "doc1") [(T.pack "doc1", 
+                                                                     T.pack "one two three")])
+               
+            , ( "Single doc"
+              , TestCase $ prop_search_count "one" 1 [ (T.pack "doc1", T.pack "one two three") 
+                                                     , (T.pack "doc2", T.pack "forty two")
+                                                     ])
+                                                                     
+            , ( "Document should be returned only once"
+              , TestCase $ prop_search_count "two one" 2 [ (T.pack "doc1", T.pack "one two three") 
+                                                         , (T.pack "doc2", T.pack "forty two")
+                                                         ])
+                                                         
+            , ( "encode . decode == id"
+              , TestCase $ prop_serialize [ (T.pack "doc1", T.pack "one two three") 
+                                          , (T.pack "doc2", T.pack "forty two")
+                                          ])                                                   
         ]
          
 -- | Helper function to populate index         
