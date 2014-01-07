@@ -23,30 +23,30 @@ testCases = [("Index", t) | t <- tests]
 
 tests :: [Test]
 tests = [ TestCase $ prop_empty
-        , TestCase $ prop_termCount ("doc1", "one two three") 3
-        , TestCase $ prop_termCount ("doc1", "one and two or three") 3
-        , TestCase $ prop_search "two" "doc1" [("doc1", "one two three")]
-        , TestCase $ prop_search "one" "doc1" [ ("doc1", "one two three") 
-                                              , ("doc2", "forty two")
-                                              ]
-        , TestCase $ prop_search "two" "doc2" [ ("doc1", "one two three") 
-                                              , ("doc2", "forty two")
-                                              ]
-        , TestCase $ prop_search "two" "doc1" [("doc1", "One Two Three")]
-        , TestCase $ prop_search "Three" "doc1" [("doc1", "one two three")]
-        , TestCase $ prop_search "one Three" "doc1" [("doc1", "one two three")]
-        , TestCase $ prop_search_count "two one" 2 [ ("doc1", "one two three") 
-                                                   , ("doc2", "forty two")
+        , TestCase $ prop_termCount (T.pack "doc1", T.pack "one two three") 3
+        , TestCase $ prop_termCount (T.pack "doc1", T.pack "one and two or three") 3
+        , TestCase $ prop_search "two" (T.pack  "doc1") [ (T.pack "doc1", T.pack "one two three")]
+        , TestCase $ prop_search "one" (T.pack  "doc1") [ (T.pack "doc1", T.pack "one two three") 
+                                                        , (T.pack "doc2", T.pack "forty two")
+                                                        ]
+        , TestCase $ prop_search "two" (T.pack "doc2") [ (T.pack "doc1", T.pack "one two three") 
+                                                       , (T.pack "doc2", T.pack "forty two")
+                                                       ]
+        , TestCase $ prop_search "two" (T.pack "doc1") [(T.pack "doc1", T.pack "One Two Three")]
+        , TestCase $ prop_search "Three" (T.pack "doc1") [(T.pack "doc1", T.pack "one two three")]
+        , TestCase $ prop_search "one Three" (T.pack "doc1") [(T.pack "doc1", T.pack "one two three")]
+        , TestCase $ prop_search_count "two one" 2 [ (T.pack "doc1", T.pack "one two three") 
+                                                   , (T.pack "doc2", T.pack "forty two")
                                                    ]
-        , TestCase $ prop_serialize [ ("doc1", "one two three") 
-                                    , ("doc2", "forty two")
+        , TestCase $ prop_serialize [ (T.pack "doc1", T.pack "one two three") 
+                                    , (T.pack "doc2", T.pack "forty two")
                                     ]                                                   
         ]
          
 -- | Helper function to populate index         
-indexFromDocs :: [([Char], DocContent)] -> Index
+indexFromDocs :: [(DocName, DocContent)] -> Index
 indexFromDocs ds = foldl f emptyIndex ds
-    where f i (d, c) = addDocument (T.pack d) c i
+    where f i (d, c) = addDocument d c i
 
          
 -- | Check empty index         
@@ -54,23 +54,23 @@ prop_empty :: Assertion
 prop_empty = assertEqual "Empty index has 0 size" 0 (termCount emptyIndex)          
          
 -- | Check if document is found         
-prop_search :: String -> [Char] -> [([Char], DocContent)] ->  Assertion         
-prop_search s e ds = assertEqual s True $ elem (T.pack e) (search idx s)
+prop_search :: String -> DocName -> [(DocName, DocContent)] ->  Assertion         
+prop_search s e ds = assertEqual s True $ elem e (search idx s)
     where idx = indexFromDocs ds
 
 -- | Count number of returned documents          
-prop_search_count :: String -> Int -> [([Char], DocContent)] ->  Assertion         
+prop_search_count :: String -> Int -> [(DocName, DocContent)] ->  Assertion         
 prop_search_count s n ds = assertEqual s n $ length (search idx s)
     where idx = indexFromDocs ds
          
 -- | Check number of terms         
-prop_termCount :: ([Char], DocContent) -> Int -> Assertion
-prop_termCount (d, c) n = assertEqual ("Index size: " ++ c) 
+prop_termCount :: (DocName, DocContent) -> Int -> Assertion
+prop_termCount (d, c) n = assertEqual ("Index size: " ++ show c) 
                                       n 
-                                      (termCount $ addDocument (T.pack d) c emptyIndex)         
+                                      (termCount $ addDocument d c emptyIndex)         
     
 -- | Check empty index         
-prop_serialize :: [([Char], DocContent)] -> Assertion         
+prop_serialize :: [(DocName, DocContent)] -> Assertion         
 prop_serialize ds = assertEqual "Serialize" (termCount idx) (termCount idx') 
     where idx = indexFromDocs ds           
           idx' = decode (encode idx)

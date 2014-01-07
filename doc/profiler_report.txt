@@ -1,3 +1,10 @@
+Version 0.2
+
+Document name type changed from [Char] to Data.Text. 
+Total RAM: 155MB
+But index.db on disk is the same
+
+
 Version 0.1
 
 Test set reuters-90/tests 

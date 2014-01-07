@@ -1,9 +1,12 @@
 # Index API
 
+This library for performance reasons is based on Data.Text (unicode strings).
+
 Create empty index
 
 ```Haskell
 import Condor.Index
+import qualified Data.Text as T
 
 let idx = emptyIndex
 ```
@@ -12,7 +15,7 @@ let idx = emptyIndex
 Add document to the index
 
 ```Haskell
-let idx1 = addDocument idx "My document" "This is a document content."
+let idx1 = addDocument idx (T.pack "My document") (T.pack "This is a document content.")
 ```
 
 

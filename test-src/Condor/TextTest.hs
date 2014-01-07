@@ -12,20 +12,22 @@ Unit tests for Condor.Text module
 
 module Condor.TextTest (testCases) where
 
+import qualified Data.Text as T
 import Condor.Text
 import Test.HUnit
+
 
 testCases :: [(String, Test)]
 testCases = [("Text", t) | t <- tests]
 
 tests :: [Test]
-tests = [ TestCase $ prop_tokenize_count "one two three" 3
-        , TestCase $ prop_tokenize_count "one,two " 2
-        , TestCase $ prop_tokenize_token " one?two! " 1 "two"
+tests = [ TestCase $ prop_tokenize_count (T.pack "one two three") 3
+        , TestCase $ prop_tokenize_count (T.pack "one,two ") 2
+        , TestCase $ prop_tokenize_token (T.pack " one?two! ") 1 (T.pack "two")
         ]
          
-prop_tokenize_count :: String -> Int -> Assertion         
-prop_tokenize_count xs n = assertEqual xs n (length (tokenize xs))          
+prop_tokenize_count :: T.Text -> Int -> Assertion         
+prop_tokenize_count xs n = assertEqual (show xs) n (length (tokenize xs))          
 
-prop_tokenize_token :: String -> Int -> String -> Assertion         
-prop_tokenize_token xs i t = assertEqual xs t ((tokenize xs)!!i)          
+prop_tokenize_token :: T.Text -> Int -> T.Text -> Assertion         
+prop_tokenize_token xs i t = assertEqual (show xs) t ((tokenize xs)!!i)          

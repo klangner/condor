@@ -5,6 +5,14 @@ module Condor.Language.English.Porter (stem) where
 import Control.Monad    
 import Data.Maybe
 import Data.List
+import qualified Data.Text as T
+
+
+-- | API stemming function
+stem :: T.Text -> T.Text
+stem s | T.length s < 3 = s
+       | otherwise    = T.pack $ allSteps (T.unpack s)
+
 
 isConsonant :: [Char] -> Int -> Bool 
 isConsonant str i
@@ -158,8 +166,3 @@ step5 = step5b . step5a
 
 allSteps :: [Char] -> [Char]
 allSteps = step5 . step4 . step3 . step2 . step1
-
-stem :: [Char] -> [Char]
-stem s | length s < 3 = s
-       | otherwise    = allSteps s
-

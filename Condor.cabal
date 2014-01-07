@@ -31,7 +31,7 @@ executable condor
                     filepath >=1.3.0 && <1.4,
                     text >=1 && <1.1
 
-  ghc-options:      -Wall 
+  ghc-options:      -Wall -prof -rtsopts
   other-modules:   
                     IO,
                     Condor.Text,

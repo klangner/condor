@@ -12,6 +12,7 @@ Unit tests for Condor.Language.English.Porter2 module
 
 module Condor.Language.English.PorterTest (testCases) where
 
+import qualified Data.Text as T
 import Condor.Language.English.Porter
 import Test.HUnit
 
@@ -32,4 +33,4 @@ tests = [ TestCase $ prop_stem "consign" "consign"
         ]
          
 prop_stem :: String -> String -> Assertion         
-prop_stem a b = assertEqual a b (stem a)          
+prop_stem a b = assertEqual a (T.pack b) (stem (T.pack a))          

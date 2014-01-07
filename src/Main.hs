@@ -79,7 +79,7 @@ addFile idx p = do
     withFile p ReadMode (\h -> do
         hSetEncoding h utf8
         !contents <- hGetContents h  
-        let idx2 = addDocument (T.pack p) contents idx
+        let idx2 = addDocument (T.pack p) (T.pack contents) idx
         hClose h
         return idx2  
         )      

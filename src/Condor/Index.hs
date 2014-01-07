@@ -9,7 +9,8 @@ Portability : portable
 
 This module contains functions which create, update and search index. 
 Default implementation uses algorithms for english language (stemming, stop words etc.)
-But it should be possible to customize it for any language by modifying Index data type.
+
+Functions in this module (for performance reasons) are based on unicode strings Data.Text.
 
 -}
 module Condor.Index 
@@ -35,8 +36,8 @@ import Condor.Language.English.Porter (stem)
 
 
 type DocName = T.Text
-type DocContent = String
-type Term = String
+type DocContent = T.Text
+type Term = T.Text
 
 -- | Inverted index
 data Index = Index { terms :: Map.Map Term [DocName]
@@ -81,7 +82,7 @@ addDocTerms d c ix = Index (foldl f (terms ix) c)
 -- | Search terms given as single string in the index
 -- This function uses algorithms for english language to split query into tokens.
 search :: Index -> String -> [DocName]
-search ix s = searchTerms ix (splitTerms s)
+search ix s = searchTerms ix (splitTerms (T.pack s))
 
 
 -- | Search terms given as array in the index.
@@ -106,7 +107,7 @@ termCount ix = Map.size (terms ix)
 
 -- | Split text into terms.
 -- This function removes stop words and stems words
-splitTerms :: String -> [Term]
+splitTerms :: T.Text -> [Term]
 splitTerms s = map stem (filter (not . isStopWord) t)
     where t = tokenize s
         

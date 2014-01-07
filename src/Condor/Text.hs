@@ -17,20 +17,21 @@ module Condor.Text
     ( tokenize
     ) where
     
-import Data.Char (toLower)
+import qualified Data.Text as T
 
 
+-- | List of separators
 isSeparator :: Char -> Bool
 isSeparator s = elem s " .,!?"
 
+-- | Remove suffix separator 
+removeSeparators:: T.Text -> T.Text
+removeSeparators = T.dropWhile isSeparator
+
+
 -- | Split string into tokens
-tokenize :: String -> [String]
-tokenize xs = case dropWhile isSeparator xs of
-                   "" -> []
-                   s' -> foldCase w : tokenize s''
-                         where (w, s'') = break isSeparator s'
-
--- | Convert string to lower case                         
-foldCase :: String -> String
-foldCase xs = map toLower xs               
-
+tokenize :: T.Text -> [T.Text]
+tokenize xs = if T.length s == 0 then []
+              else (T.toCaseFold t : tokenize r)
+                where s = removeSeparators xs
+                      (t, r) = T.break isSeparator (removeSeparators xs)
