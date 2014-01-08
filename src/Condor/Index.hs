@@ -1,5 +1,5 @@
 {- |
-Module : Condor.Index.Memory
+Module : Condor.Index
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -14,7 +14,7 @@ Default implementation uses algorithms for english language (stemming, stop word
 Functions in this module (for performance reasons) are based on unicode strings from module Data.Text.
 
 -}
-module Condor.Index.Memory 
+module Condor.Index 
     ( Index
     , addDocument
     , addDocTerms
@@ -32,8 +32,8 @@ import Data.Binary
 
 import Condor.NLP.Text
 import Condor.Commons.DataTypes (DocName, Document(..), docName, docText)
-import Condor.NLP.English.StopWords (isStopWord)
-import Condor.NLP.English.Porter (stem)
+import Condor.NLP.Language.English.StopWords (isStopWord)
+import Condor.NLP.Language.English.Porter (stem)
 
 
 type Term = T.Text

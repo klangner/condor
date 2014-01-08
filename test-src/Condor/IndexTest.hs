@@ -1,5 +1,5 @@
 {- |
-Module : Condor.Index.MemoryTest
+Module : Condor.IndexTest
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -10,12 +10,12 @@ Portability : portable
 Unit tests for Condor.Index module
 -}
 
-module Condor.Index.MemoryTest (testCases) where
+module Condor.IndexTest (testCases) where
 
 import Data.Binary
 import qualified Data.Text as T
 import Condor.Commons.DataTypes (DocName, Document, docFromStrings)
-import Condor.Index.Memory
+import Condor.Index
 import Test.HUnit
 
 

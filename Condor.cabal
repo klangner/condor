@@ -20,8 +20,8 @@ source-repository head
   location: https://github.com/klangner/Condor
 
 executable condor
-  hs-source-dirs:   src
-  main-is:          Main.hs
+  hs-source-dirs:   src-app,
+                    src
   default-language: Haskell2010
   build-depends:    
                     base >= 4 && <4.7,
@@ -34,10 +34,13 @@ executable condor
   ghc-options:      -Wall
   other-modules:   
                     Condor.Commons.DataTypes,
-                    Condor.Index.Memory,
+                    Condor.NLP.Language.English.Porter,
+                    Condor.NLP.Language.English.StopWords,
                     Condor.NLP.Text,
                     Condor.Readers.Text,
-                    IO
+                    IO,
+                    Condor.Index
+  main-is:          Main.hs
 
 library 
   hs-source-dirs:   src
@@ -45,17 +48,17 @@ library
   ghc-options:      -Wall
   exposed-modules:  
                     Condor.Commons.DataTypes,
-                    Condor.Index.Memory,
-                    Condor.NLP.English.Porter,
-                    Condor.NLP.English.StopWords,
+                    Condor.Index,
+                    Condor.NLP.Language.English.Porter,
+                    Condor.NLP.Language.English.StopWords,
                     Condor.NLP.Statistics,
-                    Condor.NLP.Text,
                     Condor.Readers.Text
   build-depends:    
                     base >= 4 && <4.7,
                     containers >=0.5.0 && <0.6,
                     binary >=0.5.1 && <0.6,
                     text >=1 && <1.1
+  other-modules:    Condor.NLP.Text
 
 test-suite unit-tests
   type:             detailed-0.9
@@ -72,16 +75,18 @@ test-suite unit-tests
 
   other-modules:   
                     Condor.Commons.DataTypes,
-                    Condor.Index.Memory,
-                    Condor.Index.MemoryTest,
-                    Condor.NLP.English.Porter,
-                    Condor.NLP.English.PorterTest,
-                    Condor.NLP.English.StopWords,
+                    Condor.NLP.Language.English.Porter,
+                    Condor.NLP.Language.English.PorterTest,
+                    Condor.NLP.Language.English.StopWords,
                     Condor.NLP.Statistics,
                     Condor.NLP.StatisticsTest,
                     Condor.NLP.Text,
                     Condor.NLP.TextTest,
-                    Distribution.TestSuite.HUnit
+                    Distribution.TestSuite.HUnit,
+                    Condor.Index,
+                    Condor.IndexTest
   hs-source-dirs:  
                     src,
                     test-src
+         test-src
+  test-src

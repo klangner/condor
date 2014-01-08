@@ -1,6 +1,6 @@
 {- | This code was taken from: http://tartarus.org/~martin/PorterStemmer/haskell.txt 
 -}
-module Condor.NLP.English.Porter (stem) where
+module Condor.NLP.Language.English.Porter (stem) where
     
 import Control.Monad    
 import Data.Maybe
