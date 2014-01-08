@@ -34,12 +34,14 @@ executable condor
   ghc-options:      -Wall
   other-modules:   
                     Condor.Commons.DataTypes,
+                    Condor.Commons.Unsafe,
+                    Condor.Index,
                     Condor.NLP.Language.English.Porter,
                     Condor.NLP.Language.English.StopWords,
+                    Condor.NLP.Statistics,
                     Condor.NLP.Text,
                     Condor.Readers.Text,
-                    IO,
-                    Condor.Index
+                    IO
   main-is:          Main.hs
 
 library 
@@ -58,7 +60,9 @@ library
                     containers >=0.5.0 && <0.6,
                     binary >=0.5.1 && <0.6,
                     text >=1 && <1.1
-  other-modules:    Condor.NLP.Text
+  other-modules:    
+                    Condor.Commons.Unsafe,
+                    Condor.NLP.Text
 
 test-suite unit-tests
   type:             detailed-0.9
@@ -75,6 +79,9 @@ test-suite unit-tests
 
   other-modules:   
                     Condor.Commons.DataTypes,
+                    Condor.Commons.Unsafe,
+                    Condor.Index,
+                    Condor.IndexTest,
                     Condor.NLP.Language.English.Porter,
                     Condor.NLP.Language.English.PorterTest,
                     Condor.NLP.Language.English.StopWords,
@@ -82,9 +89,7 @@ test-suite unit-tests
                     Condor.NLP.StatisticsTest,
                     Condor.NLP.Text,
                     Condor.NLP.TextTest,
-                    Distribution.TestSuite.HUnit,
-                    Condor.Index,
-                    Condor.IndexTest
+                    Distribution.TestSuite.HUnit
   hs-source-dirs:  
                     src,
                     test-src

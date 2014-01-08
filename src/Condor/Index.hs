@@ -24,19 +24,19 @@ module Condor.Index
     , termCount
     ) where
 
+import Data.Text (Text, pack)
 import qualified Data.Map as Map
 import qualified Data.List as List
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as E
 import Data.Binary
 
+import Condor.Commons.Unsafe()
 import Condor.NLP.Text
 import Condor.Commons.DataTypes (DocName, Document(..), docName, docText)
 import Condor.NLP.Language.English.StopWords (isStopWord)
 import Condor.NLP.Language.English.Porter (stem)
 
 
-type Term = T.Text
+type Term = Text
 
 -- | Inverted index
 data Index = Index { terms :: Map.Map Term [Int]
@@ -51,12 +51,6 @@ instance Binary Index where
      get = do i <- get
               d <- get
               return $ Index i d                        
-
--- An instance of Binary to encode and decode T.Text
-instance Binary T.Text where
-     put i = do put (E.encodeUtf8 i)
-     get = do i <- get
-              return $ E.decodeUtf8 i                        
 
 
 -- | Create empty index. 
@@ -87,7 +81,7 @@ addDocTerms d c ix = Index (foldl f (terms ix) c) (d:docs ix)
 -- | Search terms given as single string in the index
 -- This function uses algorithms for english language to split query into tokens.
 search :: Index -> String -> [DocName]
-search ix s = searchTerms ix (splitTerms (T.pack s))
+search ix s = searchTerms ix (splitTerms (pack s))
 
 
 -- | Search terms given as array in the index.
@@ -112,7 +106,7 @@ termCount ix = Map.size (terms ix)
 
 -- | Split text into terms.
 -- This function removes stop words and stems words
-splitTerms :: T.Text -> [Term]
+splitTerms :: Text -> [Term]
 splitTerms s = map stem (filter (not . isStopWord) t)
     where t = tokenize s
         
