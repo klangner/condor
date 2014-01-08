@@ -51,8 +51,10 @@ library
   exposed-modules:  
                     Condor.Commons.DataTypes,
                     Condor.Index,
+                    Condor.NLP.Language.Default,
                     Condor.NLP.Language.English.Porter,
                     Condor.NLP.Language.English.StopWords,
+                    Condor.NLP.Language.Polish.StopWords,
                     Condor.NLP.Statistics,
                     Condor.Readers.Text
   build-depends:    
@@ -82,9 +84,12 @@ test-suite unit-tests
                     Condor.Commons.Unsafe,
                     Condor.Index,
                     Condor.IndexTest,
+                    Condor.NLP.Language.Default,
+                    Condor.NLP.Language.DefaultTest,
                     Condor.NLP.Language.English.Porter,
                     Condor.NLP.Language.English.PorterTest,
                     Condor.NLP.Language.English.StopWords,
+                    Condor.NLP.Language.Polish.StopWords,
                     Condor.NLP.Statistics,
                     Condor.NLP.StatisticsTest,
                     Condor.NLP.Text,
