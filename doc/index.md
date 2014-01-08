@@ -6,7 +6,7 @@ Create empty index
 
 ```Haskell
 import Condor.Index
-import Condor.DataTypes
+import Condor.Commons.DataTypes
 
 let idx = emptyIndex
 ```
@@ -22,7 +22,7 @@ let idx1 = addDocument idx $ docFromStrings "Document name" "This is a document 
 Count the number of entries
 
 ```Haskell
-size idx1
+termCount idx1
 5
 ```
 
