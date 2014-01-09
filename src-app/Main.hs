@@ -5,8 +5,8 @@ import System.Directory (removeFile, renameFile)
 import Control.Exception
 import Control.Monad
 import Data.Binary
-import Condor.Index
-import qualified Condor.Readers.Text as TextReader
+import Condor.Search.Index
+import qualified Condor.Reader.Text as TextReader
 import IO
 
 

@@ -1,8 +1,8 @@
 module CountWords where
 
-import Condor.Readers.Text
-import Condor.NLP.Statistics
-import Condor.Commons.DataTypes
+import Condor.Reader.Text
+import Condor.NLP.Statistics(countWords)
+import Condor.Commons.Document(readDocument)
 
 countWordsExample :: IO Int
 countWordsExample = do

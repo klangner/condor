@@ -1,6 +1,6 @@
 {-# LANGUAGE BangPatterns #-}
 {- |
-Module : Condor.Readers.Text
+Module : Condor.Reader.Text
 Copyright : Copyright (C) 2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -11,10 +11,10 @@ Portability : portable
 Reader for text files. Strict version.
 Uses bang patters to force hGetContents to read file
 -}
-module Condor.Readers.Text(readDocument) where
+module Condor.Reader.Text(readDocument) where
 
 import System.IO
-import Condor.Commons.DataTypes (Document, docFromStrings)
+import Condor.Commons.Document (Document, docFromStrings)
 
     
 -- | read text as UTF8 and return as document

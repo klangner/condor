@@ -5,8 +5,8 @@ This library for performance reasons is based on Data.Text (unicode strings).
 Create empty index
 
 ```Haskell
-import Condor.Index
-import Condor.Commons.DataTypes
+import Condor.Search.Index
+import Condor.Commons.Document
 
 let idx = emptyIndex
 ```

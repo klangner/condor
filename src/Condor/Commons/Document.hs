@@ -1,5 +1,5 @@
 {- |
-Module : Condor.Commons.DataTypes
+Module : Condor.Commons.Document
 Copyright : Copyright (C) 2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -9,7 +9,7 @@ Portability : portable
 
 Common to all modules data types definitions.
 -}
-module Condor.Commons.DataTypes 
+module Condor.Commons.Document 
     ( DocName
     , Document(..)
     , docFromStrings

@@ -1,5 +1,5 @@
 {- |
-Module : Condor.IndexTest
+Module : Condor.Search.IndexTest
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
 License : The MIT License (MIT)
 
@@ -10,12 +10,12 @@ Portability : portable
 Unit tests for Condor.Index module
 -}
 
-module Condor.IndexTest (testCases) where
+module Condor.Search.IndexTest (testCases) where
 
 import Data.Binary
 import qualified Data.Text as T
-import Condor.Commons.DataTypes (DocName, Document, docFromStrings)
-import Condor.Index
+import Condor.Commons.Document (DocName, Document, docFromStrings)
+import Condor.Search.Index
 import Test.HUnit
 
 

@@ -33,15 +33,15 @@ executable condor
 
   ghc-options:      -Wall
   other-modules:   
-                    Condor.Commons.DataTypes,
                     Condor.Commons.Unsafe,
-                    Condor.Index,
                     Condor.NLP.Language.English.Porter,
                     Condor.NLP.Language.English.StopWords,
                     Condor.NLP.Statistics,
                     Condor.NLP.Text,
-                    Condor.Readers.Text,
-                    IO
+                    IO,
+                    Condor.Commons.Document,
+                    Condor.Search.Index,
+                    Condor.Reader.Text
   main-is:          Main.hs
 
 library 
@@ -49,14 +49,14 @@ library
   default-language: Haskell2010
   ghc-options:      -Wall
   exposed-modules:  
-                    Condor.Commons.DataTypes,
-                    Condor.Index,
                     Condor.NLP.Language.Default,
                     Condor.NLP.Language.English.Porter,
                     Condor.NLP.Language.English.StopWords,
                     Condor.NLP.Language.Polish.StopWords,
                     Condor.NLP.Statistics,
-                    Condor.Readers.Text
+                    Condor.Commons.Document,
+                    Condor.Search.Index,
+                    Condor.Reader.Text
   build-depends:    
                     base >= 4 && <4.7,
                     containers >=0.5.0 && <0.6,
@@ -80,10 +80,7 @@ test-suite unit-tests
                     text >=1 && <1.1
 
   other-modules:   
-                    Condor.Commons.DataTypes,
                     Condor.Commons.Unsafe,
-                    Condor.Index,
-                    Condor.IndexTest,
                     Condor.NLP.Language.Default,
                     Condor.NLP.Language.DefaultTest,
                     Condor.NLP.Language.English.Porter,
@@ -94,7 +91,10 @@ test-suite unit-tests
                     Condor.NLP.StatisticsTest,
                     Condor.NLP.Text,
                     Condor.NLP.TextTest,
-                    Distribution.TestSuite.HUnit
+                    Distribution.TestSuite.HUnit,
+                    Condor.Commons.Document,
+                    Condor.Search.Index,
+                    Condor.Search.IndexTest
   hs-source-dirs:  
                     src,
                     test-src
