@@ -17,22 +17,18 @@ module Condor.NLP.Statistics
 
 import qualified Data.Text as T
 import Condor.NLP.Text
+import Data.List
 
 
 -- | Count number of words in the text.
--- 
--- Example:
 --
--- > countWords (T.pack "This is word counter")
--- > 4
+-- > countWords (T.pack "one two three") == 3
 countWords :: T.Text -> Int    
 countWords = length . tokenize
 
 -- | Count word frequency
--- 
--- Example:
 --
--- > wordFreq (T.pack "one two three one")
--- > [("one",2), ("two", 1), ("three", 1)]
+-- > wordFreq (T.pack "one two, three one") == [("one", 2), ("two", 1), ("three", 1)]
 wordFreq :: T.Text -> [(T.Text, Int)]
-wordFreq a = [(a,1)]
+wordFreq a = [(head xs, length xs) | xs <- group tokens]
+    where tokens = sort $ tokenize a

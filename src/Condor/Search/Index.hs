@@ -110,7 +110,7 @@ findDocs ix s = case Map.lookup s (terms ix) of
                     Nothing -> []
                  
 
--- | Get the number of terms in indexs
+-- | Get the number of terms in the index
 termCount :: Index -> Int
 termCount ix = Map.size (terms ix)
 

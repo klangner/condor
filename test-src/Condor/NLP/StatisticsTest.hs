@@ -21,13 +21,12 @@ testCases = [ ( "Count words"
             
             , ( "Single word frequency"
               , TestCase $ prop_wordFreq "one" [("one", 1)])
-            {-
+            
             , ( "2 words frequency"
               , TestCase $ prop_wordFreq "one two" [("one", 1), ("two", 1)])
             
             , ( "Multi words frequency"
               , TestCase $ prop_wordFreq "one two one" [("one", 2), ("two", 1)])
-            -}
             ]
          
 -- | Count number of words       
