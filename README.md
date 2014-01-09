@@ -2,6 +2,13 @@
 
 Condor is Haskell Information Retrieval (IR) library which can be used to index, search and analyze documents.
 
+## Installation
+The library can be installed with the command:
+
+```sh
+cabal install condor
+```
+
 ## Library overview
 
 ![Overview](https://raw.github.com/klangner/Condor/master/doc/overview.png)
