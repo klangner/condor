@@ -1,13 +1,11 @@
 {- |
 Module : Condor.Search.IndexTest
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
-License : The MIT License (MIT)
+License : BSD3
 
 Maintainer : Krzysztof Langner <klangner@gmail.com>
 Stability : alpha
 Portability : portable
-
-Unit tests for Condor.Index module
 -}
 
 module Condor.Search.IndexTest (testCases) where

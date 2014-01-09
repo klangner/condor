@@ -5,15 +5,25 @@ build-type:     Simple
 author:         Krzysztof Langner
 maintainer:     klangner@gmail.com
 synopsis:       Information retrieval library
-description:    Library for indexing and searching text documents
 homepage:       https://github.com/klangner/Condor
 Bug-reports:    https://github.com/klangner/Condor/issues
 stability:      Unstable interface, incomplete features.
 category:       Search, Text, Library
-License:        MIT
+License:        BSD3
 License-file:   LICENSE
 Extra-Source-Files:
                 CHANGES
+description:    
+    An Information Retrieval (IR) library which consists of the following components:
+    .
+    * Search - for indexing and searching text documents. 
+      Check Condor.Search.Index for API information
+    .
+    * NLP - For natural language processing functions. 
+      Check modules in folder Condor.NLP for universal functions and Condor.NLP.Language.<language>  
+      for functions designed for specific language.
+    .
+    * Readers for reading documents from disk. Check Condor.Reader folder for specific reader.
 
 source-repository head
   type:     git

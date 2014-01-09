@@ -2,7 +2,7 @@
 {- |
 Module : Condor.Reader.Text
 Copyright : Copyright (C) 2014 Krzysztof Langner
-License : The MIT License (MIT)
+License : BSD3
 
 Maintainer : Krzysztof Langner <klangner@gmail.com>
 Stability : alpha

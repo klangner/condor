@@ -1,7 +1,7 @@
 {- |
 Module : Condor.NLP.Language.Default
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
-License : The MIT License (MIT)
+License : BSD3
 
 Maintainer : Krzysztof Langner <klangner@gmail.com>
 Stability : alpha

@@ -1,7 +1,7 @@
 {- |
 Module : IO
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
-License : The MIT License (MIT)
+License : BSD3
 
 Helper module with functions operating on IO
 -}

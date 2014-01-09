@@ -23,7 +23,7 @@ Count the number of entries
 
 ```Haskell
 termCount idx1
-5
+2
 ```
 
 
