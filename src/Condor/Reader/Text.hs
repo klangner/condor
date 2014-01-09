@@ -9,7 +9,7 @@ Stability : alpha
 Portability : portable
 
 Reader for text files. Strict version.
-Uses bang patters to force hGetContents to read file
+Uses bang patters to force hGetContents to read the whole file.
 -}
 module Condor.Reader.Text(readDocument) where
 

@@ -17,13 +17,13 @@ description:
     An Information Retrieval (IR) library which consists of the following components:
     .
     * Search - for indexing and searching text documents. 
-      Check Condor.Search.Index for API information
+      Check "Condor.Search.Index" for API information
     .
     * NLP - For natural language processing functions. 
-      Check modules in folder Condor.NLP for universal functions and Condor.NLP.Language.<language>  
+      Check module in folder "Condor.NLP.Statistics" for universal functions and Condor.NLP.Language.<language>  
       for functions designed for specific language.
     .
-    * Readers for reading documents from disk. Check Condor.Reader folder for specific reader.
+    * Readers for reading documents from disk. Check "Condor.Reader.Text" folder text reader.
 
 source-repository head
   type:     git

@@ -1,4 +1,13 @@
-{- | This code was taken from: http://tartarus.org/~martin/PorterStemmer/haskell.txt 
+{- |
+Module : Condor.NLP.Language.English.Porter
+Copyright : Dmitry Antonyuk
+License : BSD3
+
+Maintainer : Krzysztof Langner <klangner@gmail.com>
+Stability : alpha
+Portability : portable
+
+This code was taken from: http://tartarus.org/~martin/PorterStemmer/haskell.txt 
 -}
 module Condor.NLP.Language.English.Porter (stem) where
     

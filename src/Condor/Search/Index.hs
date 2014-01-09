@@ -13,9 +13,19 @@ Default implementation uses algorithms for english language (stemming, stop word
 
 Functions in this module (for performance reasons) are based on unicode strings from module Data.Text.
 
+Basic usage:
+
+> import Condor.Search.Index (addDocument, search)
+> import Condor.Commons.Document (docFromStrings)
+>
+> let idx = addDocument emptyIndex $ docFromStrings "My document 1" "This is a document content."
+> search idx "content"
+> ["My document 1"]
+
 -}
 module Condor.Search.Index 
     ( Index
+    , Term
     , addDocument
     , addDocTerms
     , emptyIndex
@@ -36,6 +46,7 @@ import Condor.NLP.Language.English.StopWords (isStopWord)
 import Condor.NLP.Language.English.Porter (stem)
 
 
+-- | Single term. Could be normalized word
 type Term = Text
 
 -- | Inverted index
@@ -43,7 +54,7 @@ data Index = Index { terms :: Map.Map Term [Int]
                    , docs :: [DocName]
                    }
 
--- An instance of Binary to encode and decode an IndexParams in binary
+-- | An instance of Binary to encode and decode an IndexParams in binary
 instance Binary Index where
      put i = do 
             put (terms i)

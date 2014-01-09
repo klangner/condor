@@ -7,7 +7,7 @@ Maintainer : Krzysztof Langner <klangner@gmail.com>
 Stability : alpha
 Portability : portable
 
-Common to all modules data types definitions.
+Contains basic data structures uses  by other modules.
 -}
 module Condor.Commons.Document 
     ( DocName
@@ -19,7 +19,7 @@ module Condor.Commons.Document
 
 import qualified Data.Text as T
 
-
+-- | Document name
 type DocName = T.Text
 
 -- | Field consists of title and content
