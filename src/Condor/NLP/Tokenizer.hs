@@ -7,7 +7,10 @@ Maintainer : Krzysztof Langner <klangner@gmail.com>
 Stability : alpha
 Portability : portable
 
-This module contains functions which parses text into tokens.
+This module contains functions which parses text into tokens. 
+tokens are not normalized. If you need all tokens from the document then 
+check function "tokenize". If you need only words (na dots, numbers etc.) 
+then check function "getWords".
 
 -}
 module Condor.NLP.Tokenizer 
