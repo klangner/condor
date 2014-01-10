@@ -18,6 +18,12 @@ module Condor.NLP.Tokenizer
     , foldCase
     , getWords
     , tokenize
+    , wordParser
+    , numberParser
+    , punctuationParser
+    , symbolParser
+    , spaceParser
+    , allParser
     ) where
     
 import qualified Data.Text as T
@@ -93,7 +99,8 @@ charParser :: Parser
 charParser xs | T.null xs = []
               | otherwise = [(Unknown (T.head xs), T.tail xs)]
 
--- | Apply all parsers
+-- | Apply all parsers to the input. 
+-- Return result from the first which will parse correctly given text.
 allParser :: Parser
 allParser xs = case wordParser xs of
                 [(v, out)] -> [(v, out)]
