@@ -40,7 +40,7 @@ import qualified Data.List as List
 import Data.Binary
 
 import Condor.Commons.Unsafe()
-import Condor.NLP.Text
+import Condor.NLP.Tokenizer
 import Condor.Commons.Document (DocName, Document(..), docName, docText)
 import Condor.NLP.Language.English.StopWords (isStopWord)
 import Condor.NLP.Language.English.Porter (stem)
@@ -119,6 +119,6 @@ termCount ix = Map.size (terms ix)
 -- This function removes stop words and stems words
 splitTerms :: Text -> [Term]
 splitTerms s = map stem (filter (not . isStopWord) t)
-    where t = tokenize s
+    where t = (foldCase . getWords . tokenize) s
         
 
