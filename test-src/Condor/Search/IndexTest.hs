@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 {- |
 Module : Condor.Search.IndexTest
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
@@ -28,26 +29,26 @@ testCases = [ ( "Empty index has length 0"
               , TestCase $ prop_termCount (docFromStrings "doc1" "one and two or three") 3)
               
             , ( "Search for term with the same case"
-               , TestCase $ prop_search "two" (T.pack "doc1") [docFromStrings "doc1" "one two three"])
+               , TestCase $ prop_search "two" "doc1" [docFromStrings "doc1" "one two three"])
                
             , ( "Search for first term"
-              , TestCase $ prop_search "one" (T.pack "doc1") [ docFromStrings "doc1" "one two three" 
-                                                             , docFromStrings "doc2" "forty two"
-                                                             ])
+              , TestCase $ prop_search "one" "doc1" [ docFromStrings "doc1" "one two three" 
+                                                    , docFromStrings "doc2" "forty two"
+                                                    ])
                                        
             , ( "Search for term in second document"
-              , TestCase $ prop_search "two" (T.pack "doc2") [ docFromStrings "doc1" "one two three" 
-                                                             , docFromStrings "doc2" "forty two"
-                                                             ])
+              , TestCase $ prop_search "two" "doc2" [ docFromStrings "doc1" "one two three" 
+                                                    , docFromStrings "doc2" "forty two"
+                                                    ])
                                                              
             , ( "Search for lower case term. Document has upper case"
-              , TestCase $ prop_search "two" (T.pack "doc1") [docFromStrings "doc1" "One Two Three"])
+              , TestCase $ prop_search "two" "doc1" [docFromStrings "doc1" "One Two Three"])
               
             , ( "Search for upperr case term. Document has lower case"
-              , TestCase $ prop_search "Three" (T.pack "doc1") [docFromStrings "doc1" "one two three"])
+              , TestCase $ prop_search "Three" "doc1" [docFromStrings "doc1" "one two three"])
               
             , ( "Search for 2 terms"
-              , TestCase $ prop_search "one Three" (T.pack "doc1") [docFromStrings "doc1" "one two three"])
+              , TestCase $ prop_search "one Three" "doc1" [docFromStrings "doc1" "one two three"])
                
             , ( "Single doc"
               , TestCase $ prop_search_count "one" 1 [ docFromStrings "doc1" "one two three" 
@@ -76,13 +77,13 @@ prop_empty :: Assertion
 prop_empty = assertEqual "Empty index has 0 size" 0 (termCount emptyIndex)          
          
 -- | Check if document is found         
-prop_search :: String -> DocName -> [Document] ->  Assertion         
-prop_search s e ds = assertEqual s True $ elem e (search idx s)
+prop_search :: T.Text -> DocName -> [Document] ->  Assertion         
+prop_search s e ds = assertEqual (show s) True $ elem e (search idx s)
     where idx = indexFromDocs ds
 
 -- | Count number of returned documents          
-prop_search_count :: String -> Int -> [Document] ->  Assertion         
-prop_search_count s n ds = assertEqual s n $ length (search idx s)
+prop_search_count :: T.Text -> Int -> [Document] ->  Assertion         
+prop_search_count s n ds = assertEqual (show s) n $ length (search idx s)
     where idx = indexFromDocs ds
          
 -- | Check number of terms         

@@ -5,6 +5,7 @@ import System.Directory (removeFile, renameFile)
 import Control.Exception
 import Control.Monad
 import Data.Binary
+import qualified Data.Text as T
 import Condor.Search.Index
 import qualified Condor.Reader.Text as TextReader
 import IO
@@ -82,7 +83,7 @@ addFile idx p = do
 -- | Command tosearch index
 searchCmd :: [String] -> Index -> IO ()
 searchCmd (t:_) idx = do 
-    let result = {-# SCC "search" #-} search idx t
+    let result = {-# SCC "search" #-} search idx (T.pack t)
     putStrLn $ "Search term: " ++ show t ++ " found in documents: "
     _ <- mapM (putStrLn . show) result
     return ()

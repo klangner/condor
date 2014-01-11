@@ -13,9 +13,10 @@ If there is no specific algorithm for yor language you can use one from this mod
 -}
 module Condor.NLP.Language.Default (isStopWord) where
     
-import qualified Data.Text as T
+import Prelude hiding (length)    
+import Data.Text
     
 
 -- | Any less then 4 characters words is marked as stop word
-isStopWord :: T.Text -> Bool
-isStopWord w = T.length w < 4
+isStopWord :: Text -> Bool
+isStopWord w = length w < 4

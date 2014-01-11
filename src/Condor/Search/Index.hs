@@ -34,7 +34,7 @@ module Condor.Search.Index
     , termCount
     ) where
 
-import Data.Text (Text, pack)
+import Data.Text (Text)
 import qualified Data.Map as Map
 import qualified Data.List as List
 import Data.Binary
@@ -91,8 +91,8 @@ addDocTerms d c ix = Index (foldl f (terms ix) c) (d:docs ix)
 
 -- | Search terms given as single string in the index
 -- This function uses algorithms for english language to split query into tokens.
-search :: Index -> String -> [DocName]
-search ix s = searchTerms ix (splitTerms (pack s))
+search :: Index -> Text -> [DocName]
+search ix s = searchTerms ix (splitTerms s)
 
 
 -- | Search terms given as array in the index.

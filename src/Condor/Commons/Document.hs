@@ -17,13 +17,15 @@ module Condor.Commons.Document
     , docText
     ) where
 
-import qualified Data.Text as T
+import Prelude hiding (concat, map)
+import qualified Data.List as List
+import Data.Text
 
 -- | Document name
-type DocName = T.Text
+type DocName = Text
 
 -- | Field consists of title and content
-data Field = Field T.Text T.Text
+data Field = Field Text Text
                     
 -- | Document with name and contents 
 data Document = Document DocName [Field]
@@ -31,16 +33,16 @@ data Document = Document DocName [Field]
 
 -- | Create simple field from strings
 fieldFromStrings :: String -> String -> Field
-fieldFromStrings k v = Field (T.pack k) (T.pack v) 
+fieldFromStrings k v = Field (pack k) (pack v) 
 
 -- | Create simple document with name and single field content.
 docFromStrings :: String -> String -> Document
-docFromStrings t c = Document (T.pack t) [fieldFromStrings "content" c]
+docFromStrings t c = Document (pack t) [fieldFromStrings "content" c]
 
 -- | Get document name
-docName :: Document -> T.Text
+docName :: Document -> Text
 docName (Document a _) = a
 
 -- | Get text from all fields
-docText :: Document -> T.Text
-docText (Document _ fs) = T.concat $ map (\(Field _ y) -> y) fs
+docText :: Document -> Text
+docText (Document _ fs) = concat $ List.map (\(Field _ y) -> y) fs

@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 {- |
 Module : Condor.NLP.Language.English.StopWords
 Copyright : Copyright (C) 2013-2014 Krzysztof Langner
@@ -13,15 +14,15 @@ Module contains stop words for English language
 module Condor.NLP.Language.English.StopWords (isStopWord) where
     
 import qualified Data.Set as S    
-import qualified Data.Text as T
+import Data.Text
     
 
 -- | Predicate to check if given words is a stop word
-isStopWord :: T.Text -> Bool
+isStopWord :: Text -> Bool
 isStopWord w = S.member w stopWords
 
-stopWords :: S.Set T.Text
-stopWords = S.fromList $ map T.pack
+stopWords :: S.Set Text
+stopWords = S.fromList
      [ "i"
      , "me"
      , "my"

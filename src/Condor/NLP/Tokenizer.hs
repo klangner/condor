@@ -25,13 +25,15 @@ module Condor.NLP.Tokenizer
     , spaceParser
     , allParser
     ) where
-    
-import qualified Data.Text as T
+
+import Prelude hiding (null, takeWhile, dropWhile, head, tail)    
+import Data.Text
 import Data.Char
+import qualified Data.List as List
 
 -- | Token type
-data Token = Word T.Text
-           | Number T.Text
+data Token = Word Text
+           | Number Text
            | Punctuation Char
            | Symbol Char
            | Whitespace
@@ -42,7 +44,7 @@ data Token = Word T.Text
 -- | Split text into tokens
 --
 -- > tokenize "one two." == [Word "one", Whitespace, Word "two", "Separator "."] 
-tokenize :: T.Text -> [Token]
+tokenize :: Text -> [Token]
 tokenize xs = case allParser xs of
                 [(v, out)] -> (v:tokenize out)
                 _ -> []
@@ -50,54 +52,54 @@ tokenize xs = case allParser xs of
 -- | Exctract all words from tokens
 --
 -- > getWords "one two." == ["one", "two"] 
-getWords :: [Token] -> [T.Text]
+getWords :: [Token] -> [Text]
 getWords [] = []
 getWords (x:xs) = case x of
                         Word a -> (a: getWords xs)
                         _ -> getWords xs
                         
 -- | Convert all words to the same case
-foldCase :: [T.Text] -> [T.Text]
-foldCase = map T.toCaseFold                                          
+foldCase :: [Text] -> [Text]
+foldCase = List.map toCaseFold                                          
     
 
 -- | Parser type
-type Parser = T.Text -> [(Token, T.Text)]
+type Parser = Text -> [(Token, Text)]
 
 -- | Parse word
 wordParser :: Parser
-wordParser xs | T.null xs = []
-              | isLetter (T.head xs) = [(Word (T.takeWhile isAlphaNum xs), T.dropWhile isAlphaNum xs)]
+wordParser xs | null xs = []
+              | isLetter (head xs) = [(Word (takeWhile isAlphaNum xs), dropWhile isAlphaNum xs)]
               | otherwise = []
 
 -- | Parse number
 numberParser :: Parser
-numberParser xs | T.null xs = []
-                | isDigit (T.head xs) = [(Number (T.takeWhile isDigit xs), T.dropWhile isDigit xs)]
+numberParser xs | null xs = []
+                | isDigit (head xs) = [(Number (takeWhile isDigit xs), dropWhile isDigit xs)]
                 | otherwise = []
 
 -- | Parse punctuation
 punctuationParser :: Parser
-punctuationParser xs | T.null xs = []
-                     | isPunctuation (T.head xs) = [(Punctuation (T.head xs), (T.tail xs))]
+punctuationParser xs | null xs = []
+                     | isPunctuation (head xs) = [(Punctuation (head xs), (tail xs))]
                      | otherwise = []
 
 -- | Parse symbol
 symbolParser :: Parser
-symbolParser xs | T.null xs = []
-                | isSymbol (T.head xs) = [(Symbol (T.head xs), (T.tail xs))]
+symbolParser xs | null xs = []
+                | isSymbol (head xs) = [(Symbol (head xs), (tail xs))]
                 | otherwise = []
                             
 -- | Parse whitespaces
 spaceParser :: Parser
-spaceParser xs | T.null xs = []
-               | isSpace (T.head xs) = [(Whitespace, T.dropWhile isSpace xs)]
+spaceParser xs | null xs = []
+               | isSpace (head xs) = [(Whitespace, dropWhile isSpace xs)]
                | otherwise = []
                             
 -- | Parse single char
 charParser :: Parser
-charParser xs | T.null xs = []
-              | otherwise = [(Unknown (T.head xs), T.tail xs)]
+charParser xs | null xs = []
+              | otherwise = [(Unknown (head xs), tail xs)]
 
 -- | Apply all parsers to the input. 
 -- Return result from the first which will parse correctly given text.
