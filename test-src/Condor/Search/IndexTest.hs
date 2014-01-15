@@ -20,13 +20,19 @@ import Test.HUnit
 
 testCases :: [(String, Test)]
 testCases = [ ( "Empty index has length 0"
-              , TestCase $ prop_empty)
+              , TestCase prop_empty)
             
             , ( "Space separates terms"
               , TestCase $ prop_termCount (docFromStrings "doc1" "one two three") 3)
               
             , ( "Check stop words"
               , TestCase $ prop_termCount (docFromStrings "doc1" "one and two or three") 3)
+               
+            , ( "There are 2 documents"
+              , TestCase $ prop_docCount [ docFromStrings "doc1" "one two three" 
+                                         , docFromStrings "doc2" "forty two"
+                                         ]
+                                         2)
               
             , ( "Search for term with the same case"
                , TestCase $ prop_search "two" "doc1" [docFromStrings "doc1" "one two three"])
@@ -68,7 +74,7 @@ testCases = [ ( "Empty index has length 0"
          
 -- | Helper function to populate index         
 indexFromDocs :: [Document] -> Index
-indexFromDocs ds = foldl f emptyIndex ds
+indexFromDocs = foldl f emptyIndex
     where f i d = addDocument d i
 
          
@@ -89,6 +95,10 @@ prop_search_count s n ds = assertEqual (show s) n $ length (search idx s)
 -- | Check number of terms         
 prop_termCount :: Document -> Int -> Assertion
 prop_termCount d n = assertEqual "Count terms" n (termCount $ addDocument d emptyIndex)         
+         
+-- | Check number of document         
+prop_docCount :: [Document] -> Int -> Assertion
+prop_docCount ds n = assertEqual "Count docs" n (docCount $ indexFromDocs ds)         
     
 -- | Check empty index         
 prop_serialize :: [Document] -> Assertion         

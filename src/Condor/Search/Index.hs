@@ -29,6 +29,7 @@ module Condor.Search.Index
     , addDocument
     , addDocTerms
     , emptyIndex
+    , docCount
     , search
     , searchTerms
     , termCount
@@ -74,7 +75,7 @@ emptyIndex = Index Map.empty []
 -- This function uses algorithms for english language to split document content
 -- into index terms.
 addDocument :: Document -> Index -> Index
-addDocument d idx = addDocTerms (docName d) (splitTerms content) idx
+addDocument d = addDocTerms (docName d) (splitTerms content)
     where content = docText d
 
 
@@ -113,6 +114,11 @@ findDocs ix s = case Map.lookup s (terms ix) of
 -- | Get the number of terms in the index
 termCount :: Index -> Int
 termCount ix = Map.size (terms ix)
+                 
+
+-- | Get the number of documents in the index
+docCount :: Index -> Int
+docCount ix = length (docs ix)
 
 
 -- | Split text into terms.
