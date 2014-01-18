@@ -41,10 +41,10 @@ import qualified Data.List as List
 import Data.Binary
 
 import Condor.Commons.Unsafe()
-import Condor.NLP.Tokenizer
 import Condor.Commons.Document (DocName, Document(..), docName, docText)
-import Condor.NLP.Language.English.StopWords (isStopWord)
-import Condor.NLP.Language.English.Porter (stem)
+import Glider.NLP.Language.English.StopWords (isStopWord)
+import Glider.NLP.Language.English.Porter (stem)
+import Glider.NLP.Tokenizer
 
 
 -- | Single term. Could be normalized word

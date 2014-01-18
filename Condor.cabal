@@ -39,16 +39,13 @@ executable condor
                     containers >=0.5.0 && <0.6,
                     directory >=1.2.0 && <1.3,
                     filepath >=1.3.0 && <1.4,
-                    text >=1 && <1.1
+                    text >=1 && <1.1,
+                    glider-nlp >= 0.1 && <1
 
   ghc-options:      -Wall
   other-modules:   
                     Condor.Commons.Document,
                     Condor.Commons.Unsafe,
-                    Condor.NLP.Language.English.Porter,
-                    Condor.NLP.Language.English.StopWords,
-                    Condor.NLP.Statistics,
-                    Condor.NLP.Tokenizer,
                     Condor.Reader.Text,
                     Condor.Search.Index,
                     IO
@@ -60,19 +57,14 @@ library
   ghc-options:      -Wall
   exposed-modules:  
                     Condor.Commons.Document,
-                    Condor.NLP.Language.Default,
-                    Condor.NLP.Language.English.Porter,
-                    Condor.NLP.Language.English.StopWords,
-                    Condor.NLP.Language.Polish.StopWords,
-                    Condor.NLP.Statistics,
-                    Condor.NLP.Tokenizer,
                     Condor.Reader.Text,
                     Condor.Search.Index
   build-depends:    
                     base >= 4 && <4.7,
                     containers >=0.5.0 && <0.6,
                     binary >=0.5.1 && <0.6,
-                    text >=1 && <1.1
+                    text >=1 && <1.1,
+                    glider-nlp >= 0.1 && <1
   other-modules:    Condor.Commons.Unsafe
 
 test-suite unit-tests
@@ -86,26 +78,15 @@ test-suite unit-tests
                     Cabal >=1.16.0 && <1.17,
                     containers >=0.5.0 && <0.6,
                     binary >=0.5.1 && <0.6,
-                    text >=1 && <1.1
+                    text >=1 && <1.1,
+                    glider-nlp >= 0.1 && <1
 
   other-modules:   
                     Condor.Commons.Document,
                     Condor.Commons.Unsafe,
-                    Condor.NLP.Language.Default,
-                    Condor.NLP.Language.DefaultTest,
-                    Condor.NLP.Language.English.Porter,
-                    Condor.NLP.Language.English.PorterTest,
-                    Condor.NLP.Language.English.StopWords,
-                    Condor.NLP.Language.Polish.StopWords,
-                    Condor.NLP.Statistics,
-                    Condor.NLP.StatisticsTest,
-                    Condor.NLP.Tokenizer,
-                    Condor.NLP.TokenizerTest,
                     Condor.Search.Index,
                     Condor.Search.IndexTest,
                     Distribution.TestSuite.HUnit
   hs-source-dirs:  
                     src,
                     test-src
-         test-src
-  test-src

@@ -16,7 +16,6 @@ cabal install condor
 Condor consists of the following packages:
 * [Search](doc/index.md) - For indexing and searching document
 * Reader - For reading content from different file types
-* [Natural Language processing](doc/nlp.md) - With various functions related to language processing.
 
 There is also [command line application](doc/Command-line-usage.md) for indexing and searching text documents.
 
