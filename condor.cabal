@@ -1,4 +1,4 @@
-name:           Condor
+name:           condor
 version:        0.3
 cabal-version:  >= 1.10
 build-type:     Simple
@@ -18,10 +18,6 @@ description:
     .
     * Search - for indexing and searching text documents. 
       Check "Condor.Search.Index" for API information
-    .
-    * NLP - For natural language processing functions. 
-      Check module in folder "Condor.NLP.Statistics" for universal functions and Condor.NLP.Language.<language>  
-      for functions designed for specific language.
     .
     * Readers for reading documents from disk. Check "Condor.Reader.Text" folder text reader.
 

@@ -1,4 +1,4 @@
-Version 0.3 2014-01
+Version 0.3 2014-01-20
 * Refactored modules
 * New Tokenizer module. 
 * NLP package moved to separate project
