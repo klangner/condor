@@ -100,14 +100,14 @@ search ix s = searchTerms ix (splitTerms s)
 -- This function should be used if query should be splitted into terms
 -- with custom algorithms
 searchTerms :: Index -> [Term] -> [DocName]
-searchTerms ix s = List.nub $ foldl (++) [] ys
+searchTerms ix s = List.nub $ concat ys
     where ys = map (findDocs ix) s
 
 
 -- | Search single term in the index
 findDocs :: Index -> Term -> [DocName]
 findDocs ix s = case Map.lookup s (terms ix) of
-                    Just a -> map ((reverse (docs ix))!!) a
+                    Just a -> map (reverse (docs ix) !!) a
                     Nothing -> []
                  
 
