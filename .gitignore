@@ -1,3 +1,8 @@
 *.iml
 .idea
 .stack-work
+prof.sh
+datasets
+dist
+temp
+index.db
