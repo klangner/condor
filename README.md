@@ -3,7 +3,7 @@
 Condor is Haskell Information Retrieval (IR) library which can be used to index, search and analyze documents.
 
 ## Installation
-The library can be installed from [Hackage](http://hackage.haskell.org/package/Condor) with the command:
+The library can be installed from [Hackage](http://hackage.haskell.org/package/condor) with the command:
 
 ```sh
 cabal install condor
@@ -11,7 +11,6 @@ cabal install condor
 
 ## Library overview
 
-![Overview](https://raw.github.com/klangner/Condor/master/doc/overview.png)
 
 Condor consists of the following packages:
 * [Search](doc/index.md) - For indexing and searching document
@@ -25,7 +24,5 @@ There is also [command line application](doc/Command-line-usage.md) for indexing
 * src - Contains library code
 * src-test - Contains unit tests
 * src-app - contains sources for command line application
-* examples - Contain haskell examples which can be loaded in ghci and executed to test API
-* samples - contains small datasets for testing purposes
 
 This is alpha version of the library. It means that the API can change in the next releases.

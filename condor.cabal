@@ -8,7 +8,7 @@ synopsis:       Information retrieval library
 homepage:       https://github.com/klangner/Condor
 Bug-reports:    https://github.com/klangner/Condor/issues
 stability:      Unstable interface, incomplete features.
-category:       Search, Text, Library
+category:       Search, Text
 License:        BSD3
 License-file:   LICENSE
 Extra-Source-Files:
@@ -17,13 +17,13 @@ description:
     An Information Retrieval (IR) library which consists of the following components:
     .
     * Search - for indexing and searching text documents. 
-      Check "Condor.Search.Index" for API information
+      Check "Condor.Core.Index" for API information
     .
     * Readers for reading documents from disk. Check "Condor.Reader.Text" folder text reader.
 
 source-repository head
   type:     git
-  location: https://github.com/klangner/oondor
+  location: https://github.com/klangner/condor
 
 executable condor
   hs-source-dirs:   src-app,

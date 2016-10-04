@@ -5,8 +5,8 @@ This library for performance reasons is based on Data.Text (unicode strings).
 Create empty index
 
 ```Haskell
-import Condor.Search.Index
-import Condor.Commons.Document
+import Condor.Core.Index
+import Condor.Core.Document
 
 let idx = emptyIndex
 ```
@@ -15,7 +15,7 @@ let idx = emptyIndex
 Add document to the index
 
 ```Haskell
-let idx1 = addDocument idx $ docFromStrings "Document name" "This is a document content."
+let idx1 = addDocument idx $ mkDocument "Document name" "This is a document content."
 ```
 
 
