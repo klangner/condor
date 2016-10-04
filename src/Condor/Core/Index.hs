@@ -1,6 +1,6 @@
 {- |
-Module : Condor.Search.Index
-Copyright : Copyright (C) 2013-2014 Krzysztof Langner
+Module : Condor.Core.Index
+Copyright : Copyright (C) 2013-2016 Krzysztof Langner
 License : BSD3
 
 Maintainer : Krzysztof Langner <klangner@gmail.com>
@@ -23,12 +23,13 @@ Basic usage:
 > ["My document 1"]
 
 -}
-module Condor.Search.Index 
+module Condor.Core.Index
     ( Index
     , Term
     , addDocument
     , addDocTerms
     , emptyIndex
+    , indexFromDocs
     , docCount
     , search
     , searchTerms
@@ -40,8 +41,7 @@ import qualified Data.Map as Map
 import qualified Data.List as List
 import Data.Binary
 
-import Condor.Commons.Unsafe()
-import Condor.Commons.Document (DocName, Document(..), docName, docText)
+import Condor.Core.Document (DocName, Document(..), docName, docText)
 import Glider.NLP.Language.English.StopWords (isStopWord)
 import Glider.NLP.Language.English.Porter (stem)
 import Glider.NLP.Tokenizer
@@ -69,6 +69,12 @@ instance Binary Index where
 -- This index will be configured for english language.
 emptyIndex :: Index
 emptyIndex = Index Map.empty []
+
+
+-- | Create new index from given set of documents
+indexFromDocs :: [Document] -> Index
+indexFromDocs = foldl fun emptyIndex
+    where fun idx doc = addDocument doc idx
 
 
 -- | Add document to the index.

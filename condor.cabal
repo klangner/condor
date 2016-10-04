@@ -1,4 +1,4 @@
-name:           Condor
+name:           condor
 version:        0.4
 cabal-version:  >= 1.10
 build-type:     Simple
@@ -23,27 +23,26 @@ description:
 
 source-repository head
   type:     git
-  location: https://github.com/klangner/Condor
+  location: https://github.com/klangner/oondor
 
 executable condor
   hs-source-dirs:   src-app,
                     src
   default-language: Haskell2010
   build-depends:    
-                    base >= 4 && <4.7,
-                    binary >=0.5.1 && <0.6,
+                    base == 4.*,
+                    binary >=0.5.1 && <1,
                     containers >=0.5.0 && <0.6,
                     directory >=1.2.0 && <1.3,
-                    filepath >=1.3.0 && <1.4,
-                    text >=1 && <1.1,
-                    glider-nlp >= 0.1 && <1
+                    filepath >=1.4.0 && <1.5,
+                    text == 1.*,
+                    glider-nlp == 0.4.*
 
   ghc-options:      -Wall
   other-modules:   
-                    Condor.Commons.Document,
-                    Condor.Commons.Unsafe,
+                    Condor.Core.Document,
                     Condor.Reader.Text,
-                    Condor.Search.Index,
+                    Condor.Core.Index,
                     IO
   main-is:          Main.hs
 
@@ -52,37 +51,35 @@ library
   default-language: Haskell2010
   ghc-options:      -Wall
   exposed-modules:  
-                    Condor.Commons.Document,
+                    Condor.Core.Document,
                     Condor.Reader.Text,
-                    Condor.Search.Index
+                    Condor.Core.Index
   build-depends:    
-                    base >= 4 && <4.7,
+                    base == 4.*,
                     containers >=0.5.0 && <0.6,
-                    binary >=0.5.1 && <0.6,
-                    text >=1 && <1.1,
-                    glider-nlp >= 0.1 && <1
-  other-modules:    Condor.Commons.Unsafe
+                    binary >=0.5.1 && <1,
+                    text == 1.*,
+                    glider-nlp == 0.4.*
+
 
 test-suite unit-tests
-  type:             detailed-0.9
-  test-module:      AllTests
+  type:             exitcode-stdio-1.0
+  main-is:          Spec.hs
   default-language: Haskell2010
   ghc-options:      -Wall -rtsopts
   build-depends:   
-                    base >= 4 && <4.7,
-                    HUnit >=1.2.5 && <1.3,
-                    Cabal >=1.16.0 && <1.17,
+                    base == 4.*,
+                    hspec == 2.*,
+                    Cabal == 1.*,
                     containers >=0.5.0 && <0.6,
-                    binary >=0.5.1 && <0.6,
-                    text >=1 && <1.1,
-                    glider-nlp >= 0.1 && <1
+                    binary >=0.5.1 && <1,
+                    text == 1.*,
+                    glider-nlp == 0.4.*
 
   other-modules:   
-                    Condor.Commons.Document,
-                    Condor.Commons.Unsafe,
-                    Condor.Search.Index,
-                    Condor.Search.IndexTest,
-                    Distribution.TestSuite.HUnit
-  hs-source-dirs:  
+                    Condor.Core.Document,
+                    Condor.Core.Index,
+                    Condor.Core.IndexSpec
+  hs-source-dirs:
                     src,
                     test-src

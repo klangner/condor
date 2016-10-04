@@ -1,4 +1,4 @@
-module CountWords where
+module Statistics where
 
 import Data.Text
 import Condor.Reader.Text(readDocument)

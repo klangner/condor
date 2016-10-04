@@ -1,6 +1,7 @@
+{-# LANGUAGE OverloadedStrings #-}
 {- |
-Module : Condor.Commons.Document
-Copyright : Copyright (C) 2014 Krzysztof Langner
+Module : Condor.Core.Document
+Copyright : Copyright (C) 2014-2016 Krzysztof Langner
 License : BSD3
 
 Maintainer : Krzysztof Langner <klangner@gmail.com>
@@ -9,10 +10,10 @@ Portability : portable
 
 Contains basic data structures uses  by other modules.
 -}
-module Condor.Commons.Document 
+module Condor.Core.Document
     ( DocName
     , Document(..)
-    , docFromStrings
+    , mkDocument
     , docName
     , docText
     ) where
@@ -20,6 +21,7 @@ module Condor.Commons.Document
 import Prelude hiding (concat, map)
 import qualified Data.List as List
 import Data.Text
+
 
 -- | Document name
 type DocName = Text
@@ -32,12 +34,12 @@ data Document = Document DocName [Field]
 
 
 -- | Create simple field from strings
-fieldFromStrings :: String -> String -> Field
-fieldFromStrings k v = Field (pack k) (pack v) 
+mkField :: Text -> Text -> Field
+mkField k v = Field k v
 
 -- | Create simple document with name and single field content.
-docFromStrings :: String -> String -> Document
-docFromStrings t c = Document (pack t) [fieldFromStrings "content" c]
+mkDocument :: Text -> Text -> Document
+mkDocument t c = Document t [mkField "content" c]
 
 -- | Get document name
 docName :: Document -> Text

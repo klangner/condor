@@ -6,7 +6,7 @@ import Control.Exception
 import Control.Monad
 import Data.Binary
 import qualified Data.Text as T
-import Condor.Search.Index
+import Condor.Core.Index
 import qualified Condor.Reader.Text as TextReader
 import IO
 

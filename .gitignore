@@ -1,12 +1,3 @@
-/.settings
-/dist
-/.dist-buildwrapper
-/index.db
-/cabal-dev
-/datasets
-/index.reuters.db
-/Main.prof
-/Main.hp
-/temp
-/condor.hp
-/condor.prof
+*.iml
+.idea
+.stack-work
