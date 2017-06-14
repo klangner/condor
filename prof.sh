@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # Compile application in src directory
 cd src
 ghc Main.hs -prof -rtsopts
